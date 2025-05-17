@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+    <servlet>
+        <servlet-name>UsuariosControlador</servlet-name>
+        <servlet-class>sv.edu.udb.pooproyectofinal.controlador.UsuariosControlador</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UsuariosControlador</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RegistroControlador</servlet-name>
+        <servlet-class>sv.edu.udb.pooproyectofinal.controlador.RegistroControlador</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegistroControlador</servlet-name>
+        <url-pattern>/registro</url-pattern>
+    </servlet-mapping>
+</web-app>

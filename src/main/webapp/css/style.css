@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap');
+
+:root {
+    --negro1: #1F1F1F;
+    --negro2: #333333;
+    --rosa: #FF5C74;
+    --cordovan: #8F3E4A;
+    --shimmer: #C74D5F;
+    --salmon: #FF8597;
+    --mimi: #FFD6DC;
+    --azulmaya: #5CBBFF;
+    --bice: #3E6D8F;
+    --steelblue: #4983AB;
+    --celeste: #85CCFF;
+    --bleu: #0083E0;
+    --columbia: #D6EEFF;
+    --verde: #B0E265;
+    --fern: #688142;
+    --asparagus: #82A253;
+    --mindaro: #C1E887;
+    --nyanza: #EDF9DC;
+    --amarillo: #FFD84D;
+    --jazmin: #FFE485;
+    --oliva: #8F7929;
+    --cornsilk: #FFF6D6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Kantumruy Pro", sans-serif;
+}
+
+#fuente2 {
+    font-family: "Julius Sans One", sans-serif;
+    -webkit-text-stroke: 1px #fff;
+}
+
+nav div {
+    background: var(--negro2);
+    font-size: 26px;
+    -webkit-text-stroke: 1px #fff;
+}
+
+main {
+    border-radius: 3px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+}
+
+.bg-negro1 {
+    background: var(--negro1);
+}
+
+.bg-negro2 {
+    background: var(--negro2);
+}
+
+nav *, .header h2 {
+    font-family: "Julius Sans One", sans-serif;
+}
+
+.link {
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+#titulo:hover {
+    text-shadow: 0 0 4px #eee;
+}
+
+.cliente:hover, .cliente-activo {
+    background: var(--rosa);
+    text-shadow: 0 0 6px #000;
+}
+
+.empleado:hover, .empleado-activo {
+    background: var(--verde);
+    text-shadow: 0 0 6px #000;
+}
+
+.cotiz:hover, .cotiz-activo {
+    background: var(--azulmaya);
+    text-shadow: 0 0 6px #000;
+}
+
+a.menu {
+    display: block;
+    margin-top: 40px;
+    padding: 10px;
+    font-size: 1.3rem;
+    border-radius: 5px;
+}
+
+.menu.cliente {
+    border: 2px solid var(--rosa);
+}
+
+.menu.empleado {
+    border: 2px solid var(--verde);
+}
+
+.menu.cotiz {
+    border: 2px solid var(--azulmaya);
+}
+
+.btn, .subheader-cotiz a {
+    color: #fff;
+    text-decoration: none;
+    text-shadow: 0 0 4px #000;
+    transition: all 0.3s;
+}
+
+.btn:hover, .subheader-cotiz a:hover {
+    color: #fff;
+}
+
+.btn-cliente {
+    background: var(--rosa);
+}
+
+.btn-cliente:hover {
+    background: var(--salmon);
+}
+
+.btn-empleado {
+    background: var(--verde);
+}
+
+.btn-empleado:hover {
+    background: var(--mindaro);
+}
+
+.btn-cotiz {
+    background: var(--azulmaya);
+}
+
+.btn-cotiz:hover, .btn-subcotiz {
+    background: var(--celeste);
+}
+
+.btn-subcotiz-activo, .btn-subcotiz:hover {
+    background: var(--bleu);
+}
+
+.btn-login {
+    background: var(--amarillo);
+}
+
+.btn-login:hover {
+    background: var(--jazmin);
+}
+
+.alinear td {
+    vertical-align: middle;
+}
+
+.header h2 {
+    text-align: left;
+    -webkit-text-stroke: 1px #fff;
+}
+
+.header-cliente {
+    background: var(--cordovan);
+}
+
+.header-empleado {
+    background: var(--fern);
+}
+
+.header-cotiz {
+    background: var(--bice);
+}
+
+.subheader-cotiz {
+    border-bottom: #fff 2px solid;
+}
+
+.header-login {
+    background: var(--oliva);
+}
+
+table {
+    border-top: #fff 2px solid;
+}
+
+thead th {
+    font-weight: 400;
+}
+
+thead th:not(:last-child) {
+    border-right: #fff 2px solid;
+}
+
+tbody tr {
+    border-bottom: #000 2px solid;
+}
+
+tr td {
+    border-right: #000 2px solid;
+}
+
+tr td:first-child {
+    border-left: #000 2px solid;
+}
+
+.tabla-cliente {
+    background: var(--shimmer);
+}
+
+.tabla-empleado {
+    background: var(--asparagus);
+}
+
+.tabla-cotiz {
+    background: var(--steelblue);
+}
+
+.form-cliente input, .form-cliente select {
+    background: var(--mimi);
+    color: var(--shimmer);
+}
+
+.form-cliente label {
+    color: var(--cordovan);
+}
+
+.form-cliente input:focus, .form-cliente select:focus {
+    background: var(--mimi);
+    color: var(--shimmer);
+    border-color: var(--rosa);
+    box-shadow: 0 0 0 0.25rem var(--salmon);
+}
+
+.form-empleado input, .form-empleado select {
+    background: var(--nyanza);
+    color: var(--asparagus);
+}
+
+.form-empleado label {
+    color: var(--asparagus);
+}
+
+.form-empleado input:focus, .form-empleado select:focus {
+    background: var(--nyanza);
+    color: var(--asparagus);
+    border-color: var(--verde);
+    box-shadow: 0 0 0 0.25rem var(--mindaro);
+}
+
+.form-cotiz input, .form-cotiz select, .form-cotiz textarea {
+    background: var(--columbia);
+    color: var(--steelblue);
+}
+
+.form-cotiz label {
+    color: var(--steelblue);
+}
+
+.form-cotiz input:focus, .form-cotiz select:focus, .form-cotiz textarea:focus {
+    background: var(--columbia);
+    color: var(--steelblue);
+    border-color: var(--azulmaya);
+    box-shadow: 0 0 0 0.25rem var(--celeste);
+}
+
+.form-login input {
+    background: var(--cornsilk);
+    color: var(--oliva);
+}
+
+.form-login label {
+    color: var(--oliva);
+}
+
+.form-login input:focus {
+    background: var(--cornsilk);
+    color: var(--oliva);
+    border-color: var(--amarillo);
+    box-shadow: 0 0 0 0.25rem var(--jazmin);
+}
