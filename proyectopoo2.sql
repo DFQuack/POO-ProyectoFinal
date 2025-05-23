@@ -25,6 +25,8 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+
+-- Usuario Procedures
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_create_usuario` (IN `p_username` VARCHAR(50), IN `p_password` VARCHAR(255), IN `p_email` VARCHAR(100))   BEGIN
     INSERT INTO usuarios (username, password, email)
     VALUES (p_username, p_password, p_email);
@@ -67,6 +69,239 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_verify_login` (IN `p_username` VARCHAR(50), IN `p_password` VARCHAR(255))   BEGIN
     SELECT id, username, email FROM usuarios 
     WHERE username = p_username AND password = p_password;
+END$$
+
+-- Persona Procedures
+CREATE PROCEDURE `sp_create_persona` (
+    IN `p_nombre` VARCHAR(100),
+    IN `p_documento` VARCHAR(20),
+    IN `p_telefono` VARCHAR(20),
+    IN `p_direccion` VARCHAR(200)
+)
+BEGIN
+    INSERT INTO persona (nombre, documento, telefono, direccion)
+    VALUES (p_nombre, p_documento, p_telefono, p_direccion);
+    
+    SELECT LAST_INSERT_ID() AS new_id;
+END$$
+
+CREATE PROCEDURE `sp_read_persona_by_id` (IN `p_id` INT)
+BEGIN
+    SELECT * FROM persona WHERE id = p_id;
+END$$
+
+CREATE PROCEDURE `sp_read_all_personas` ()
+BEGIN
+    SELECT * FROM persona;
+END$$
+
+CREATE PROCEDURE `sp_update_persona` (
+    IN `p_id` INT,
+    IN `p_nombre` VARCHAR(100),
+    IN `p_documento` VARCHAR(20),
+    IN `p_telefono` VARCHAR(20),
+    IN `p_direccion` VARCHAR(200)
+)
+BEGIN
+    UPDATE persona 
+    SET 
+        nombre = p_nombre,
+        documento = p_documento,
+        telefono = p_telefono,
+        direccion = p_direccion
+    WHERE id = p_id;
+    
+    SELECT ROW_COUNT() AS affected_rows;
+END$$
+
+CREATE PROCEDURE `sp_delete_persona` (IN `p_id` INT)
+BEGIN
+    DELETE FROM persona WHERE id = p_id;
+    SELECT ROW_COUNT() AS affected_rows;
+END$$
+
+-- Empleado Procedures
+CREATE PROCEDURE `sp_create_empleado` (
+    IN `p_persona_id` INT,
+    IN `p_tipo_contratacion` VARCHAR(50),
+    IN `p_creado_por` VARCHAR(100)
+)
+BEGIN
+    INSERT INTO empleado (persona_id, tipo_contratacion, estado, creado_por, fecha_creacion, fecha_actualizacion)
+    VALUES (p_persona_id, p_tipo_contratacion, 1, p_creado_por, CURDATE(), CURDATE());
+    
+    SELECT LAST_INSERT_ID() AS new_id;
+END$$
+
+CREATE PROCEDURE `sp_read_empleado_by_id` (IN `p_id` INT)
+BEGIN
+    SELECT e.*, p.nombre, p.documento, p.telefono, p.direccion 
+    FROM empleado e
+    JOIN persona p ON e.persona_id = p.id
+    WHERE e.id = p_id;
+END$$
+
+CREATE PROCEDURE `sp_read_all_empleados` ()
+BEGIN
+    SELECT e.*, p.nombre, p.documento, p.telefono, p.direccion 
+    FROM empleado e
+    JOIN persona p ON e.persona_id = p.id;
+END$$
+
+CREATE PROCEDURE `sp_update_empleado` (
+    IN `p_id` INT,
+    IN `p_tipo_contratacion` VARCHAR(50),
+    IN `p_estado` TINYINT(1)
+)
+BEGIN
+    UPDATE empleado 
+    SET 
+        tipo_contratacion = p_tipo_contratacion,
+        estado = p_estado,
+        fecha_actualizacion = CURDATE()
+    WHERE id = p_id;
+    
+    SELECT ROW_COUNT() AS affected_rows;
+END$$
+
+CREATE PROCEDURE `sp_delete_empleado` (IN `p_id` INT)
+BEGIN
+    DELETE FROM empleado WHERE id = p_id;
+    SELECT ROW_COUNT() AS affected_rows;
+END$$
+
+-- Cotizacion Procedures
+CREATE PROCEDURE `sp_create_cotizacion` (
+    IN `p_cantidad_horas_proyecto` INT,
+    IN `p_fecha_inicio` DATE,
+    IN `p_fecha_fin` DATE,
+    IN `p_costo_asignaciones` DECIMAL(10,2),
+    IN `p_costos_adicionales` DECIMAL(10,2),
+    IN `p_total` DECIMAL(10,2),
+    IN `p_estado` VARCHAR(50),
+    IN `p_cliente_id` INT
+)
+BEGIN
+    INSERT INTO cotizacion (cantidad_horas_proyecto, fecha_inicio, fecha_fin, costo_asignaciones, costos_adicionales, total, estado, cliente_id)
+    VALUES (p_cantidad_horas_proyecto, p_fecha_inicio, p_fecha_fin, p_costo_asignaciones, p_costos_adicionales, p_total, p_estado, p_cliente_id);
+    
+    SELECT LAST_INSERT_ID() AS new_id;
+END$$
+
+CREATE PROCEDURE `sp_read_cotizacion_by_id` (IN `p_id` INT)
+BEGIN
+    SELECT c.*, u.username AS cliente_username, u.email AS cliente_email
+    FROM cotizacion c
+    JOIN usuarios u ON c.cliente_id = u.id
+    WHERE c.id = p_id;
+END$$
+
+CREATE PROCEDURE `sp_read_all_cotizaciones` ()
+BEGIN
+    SELECT c.*, u.username AS cliente_username, u.email AS cliente_email
+    FROM cotizacion c
+    JOIN usuarios u ON c.cliente_id = u.id;
+END$$
+
+CREATE PROCEDURE `sp_update_cotizacion` (
+    IN `p_id` INT,
+    IN `p_cantidad_horas_proyecto` INT,
+    IN `p_fecha_inicio` DATE,
+    IN `p_fecha_fin` DATE,
+    IN `p_costo_asignaciones` DECIMAL(10,2),
+    IN `p_costos_adicionales` DECIMAL(10,2),
+    IN `p_total` DECIMAL(10,2),
+    IN `p_estado` VARCHAR(50)
+)
+BEGIN
+    UPDATE cotizacion 
+    SET 
+        cantidad_horas_proyecto = p_cantidad_horas_proyecto,
+        fecha_inicio = p_fecha_inicio,
+        fecha_fin = p_fecha_fin,
+        costo_asignaciones = p_costo_asignaciones,
+        costos_adicionales = p_costos_adicionales,
+        total = p_total,
+        estado = p_estado
+    WHERE id = p_id;
+    
+    SELECT ROW_COUNT() AS affected_rows;
+END$$
+
+CREATE PROCEDURE `sp_delete_cotizacion` (IN `p_id` INT)
+BEGIN
+    DELETE FROM cotizacion WHERE id = p_id;
+    SELECT ROW_COUNT() AS affected_rows;
+END$$
+
+-- Asignacion Procedures
+CREATE PROCEDURE `sp_create_asignacion` (
+    IN `p_titulo_actividad` VARCHAR(100),
+    IN `p_fecha_hora_inicio` DATETIME,
+    IN `p_fecha_hora_fin` DATETIME,
+    IN `p_cantidad_horas` INT,
+    IN `p_costo_base` DECIMAL(10,2),
+    IN `p_incremento_extra` DECIMAL(10,2),
+    IN `p_total` DECIMAL(10,2),
+    IN `p_cotizacion_id` INT,
+    IN `p_empleado_id` INT
+)
+BEGIN
+    INSERT INTO asignacion (titulo_actividad, fecha_hora_inicio, fecha_hora_fin, cantidad_horas, costo_base, incremento_extra, total, cotizacion_id, empleado_id)
+    VALUES (p_titulo_actividad, p_fecha_hora_inicio, p_fecha_hora_fin, p_cantidad_horas, p_costo_base, p_incremento_extra, p_total, p_cotizacion_id, p_empleado_id);
+    
+    SELECT LAST_INSERT_ID() AS new_id;
+END$$
+
+CREATE PROCEDURE `sp_read_asignacion_by_id` (IN `p_id` INT)
+BEGIN
+    SELECT a.*, e.persona_id, p.nombre AS empleado_nombre, c.cliente_id, u.username AS cliente_username
+    FROM asignacion a
+    JOIN empleado e ON a.empleado_id = e.id
+    JOIN persona p ON e.persona_id = p.id
+    JOIN cotizacion c ON a.cotizacion_id = c.id
+    JOIN usuarios u ON c.cliente_id = u.id
+    WHERE a.id = p_id;
+END$$
+
+CREATE PROCEDURE `sp_read_all_asignaciones` ()
+BEGIN
+    SELECT a.*, e.persona_id, p.nombre AS empleado_nombre, c.cliente_id, u.username AS cliente_username
+    FROM asignacion a
+    JOIN empleado e ON a.empleado_id = e.id
+    JOIN persona p ON e.persona_id = p.id
+    JOIN cotizacion c ON a.cotizacion_id = c.id
+    JOIN usuarios u ON c.cliente_id = u.id;
+END$$
+
+CREATE PROCEDURE `sp_update_asignacion` (
+    IN `p_id` INT,
+    IN `p_titulo_actividad` VARCHAR(100),
+    IN `p_fecha_hora_inicio` DATETIME,
+    IN `p_fecha_hora_fin` DATETIME,
+    IN `p_cantidad_horas` INT,
+    IN `p_costo_base` DECIMAL(10,2),
+    IN `p_incremento_extra` DECIMAL(10,2),
+    IN `p_total` DECIMAL(10,2))
+BEGIN
+    UPDATE asignacion 
+    SET 
+        titulo_actividad = p_titulo_actividad,
+        fecha_hora_inicio = p_fecha_hora_inicio,
+        fecha_hora_fin = p_fecha_hora_fin,
+        cantidad_horas = p_cantidad_horas,
+        costo_base = p_costo_base,
+        incremento_extra = p_incremento_extra,
+        total = p_total
+    WHERE id = p_id;
+    
+    SELECT ROW_COUNT() AS affected_rows;
+END$$
+
+CREATE PROCEDURE `sp_delete_asignacion` (IN `p_id` INT)
+BEGIN
+    DELETE FROM asignacion WHERE id = p_id;
+    SELECT ROW_COUNT() AS affected_rows;
 END$$
 
 DELIMITER ;
