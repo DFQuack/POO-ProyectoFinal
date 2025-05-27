@@ -1,4 +1,4 @@
--- phpMyAdmin SQL Dump
+ -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
@@ -71,52 +71,98 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_verify_login` (IN `p_username` V
     WHERE username = p_username AND password = p_password;
 END$$
 
--- Persona Procedures
-CREATE PROCEDURE `sp_create_persona` (
+-- Cliente Procedures
+CREATE PROCEDURE `sp_create_cliente` (
     IN `p_nombre` VARCHAR(100),
     IN `p_documento` VARCHAR(20),
     IN `p_telefono` VARCHAR(20),
-    IN `p_direccion` VARCHAR(200)
+    IN `p_direccion` VARCHAR(200),
+    IN `p_email` VARCHAR(100),
+    IN `p_username` VARCHAR(50),
+    IN `p_password` VARCHAR(255)
 )
 BEGIN
+    DECLARE persona_id INT;
+    
+    -- Primero crear la persona
     INSERT INTO persona (nombre, documento, telefono, direccion)
     VALUES (p_nombre, p_documento, p_telefono, p_direccion);
+    
+    SET persona_id = LAST_INSERT_ID();
+    
+    -- Luego crear el usuario/cliente
+    INSERT INTO usuarios (persona_id, username, email, password, estado, creado_por, fecha_creacion, fecha_actualizacion)
+    VALUES (persona_id, p_username, p_email, p_password, 1, 'system', CURDATE(), CURDATE());
     
     SELECT LAST_INSERT_ID() AS new_id;
 END$$
 
-CREATE PROCEDURE `sp_read_persona_by_id` (IN `p_id` INT)
+CREATE PROCEDURE `sp_read_cliente_by_id` (IN `p_id` INT)
 BEGIN
-    SELECT * FROM persona WHERE id = p_id;
+    SELECT u.id, p.nombre, p.documento, p.telefono, p.direccion, u.username, u.email, u.estado
+    FROM usuarios u
+    JOIN persona p ON u.persona_id = p.id
+    WHERE u.id = p_id;
 END$$
 
-CREATE PROCEDURE `sp_read_all_personas` ()
+CREATE PROCEDURE `sp_read_all_clientes` ()
 BEGIN
-    SELECT * FROM persona;
+    SELECT u.id, p.nombre, p.documento, p.telefono, p.direccion, u.username, u.email, u.estado
+    FROM usuarios u
+    JOIN persona p ON u.persona_id = p.id
+    WHERE u.estado = 1;
 END$$
 
-CREATE PROCEDURE `sp_update_persona` (
+CREATE PROCEDURE `sp_update_cliente` (
     IN `p_id` INT,
     IN `p_nombre` VARCHAR(100),
     IN `p_documento` VARCHAR(20),
     IN `p_telefono` VARCHAR(20),
-    IN `p_direccion` VARCHAR(200)
+    IN `p_direccion` VARCHAR(200),
+    IN `p_email` VARCHAR(100),
+    IN `p_username` VARCHAR(50),
+    IN `p_estado` TINYINT(1)
 )
 BEGIN
+    DECLARE v_persona_id INT;
+    
+    -- Obtener el persona_id asociado al usuario
+    SELECT persona_id INTO v_persona_id FROM usuarios WHERE id = p_id;
+    
+    -- Actualizar datos de persona
     UPDATE persona 
     SET 
         nombre = p_nombre,
         documento = p_documento,
         telefono = p_telefono,
         direccion = p_direccion
+    WHERE id = v_persona_id;
+    
+    -- Actualizar datos de usuario
+    UPDATE usuarios 
+    SET 
+        username = p_username,
+        email = p_email,
+        estado = p_estado,
+        fecha_actualizacion = CURDATE()
     WHERE id = p_id;
     
     SELECT ROW_COUNT() AS affected_rows;
 END$$
 
-CREATE PROCEDURE `sp_delete_persona` (IN `p_id` INT)
+CREATE PROCEDURE `sp_delete_cliente` (IN `p_id` INT)
 BEGIN
-    DELETE FROM persona WHERE id = p_id;
+    DECLARE v_persona_id INT;
+    
+    -- Obtener el persona_id asociado al usuario
+    SELECT persona_id INTO v_persona_id FROM usuarios WHERE id = p_id;
+    
+    -- Eliminar el usuario (cliente)
+    DELETE FROM usuarios WHERE id = p_id;
+    
+    -- Eliminar la persona asociada
+    DELETE FROM persona WHERE id = v_persona_id;
+    
     SELECT ROW_COUNT() AS affected_rows;
 END$$
 
