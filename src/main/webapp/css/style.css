@@ -49,7 +49,7 @@ main {
     border-radius: 3px;
 }
 
-footer {
+footer#abajo {
     position: absolute;
     bottom: 0;
 }
@@ -88,6 +88,11 @@ nav *, .header h2 {
 
 .cotiz:hover, .cotiz-activo {
     background: var(--azulmaya);
+    text-shadow: 0 0 6px #000;
+}
+
+.login:hover, .login-activo {
+    background: var(--amarillo);
     text-shadow: 0 0 6px #000;
 }
 

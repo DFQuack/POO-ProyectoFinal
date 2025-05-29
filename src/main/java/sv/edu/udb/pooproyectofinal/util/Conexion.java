@@ -8,9 +8,7 @@ public class Conexion {
     private static Connection connection = null;
 
     public static Connection getConnection() {
-        if (connection != null) {
-            return connection;
-        } else {
+        if (connection == null) {
             try {
                 String driver = "com.mysql.cj.jdbc.Driver";
                 String url = "jdbc:mysql://localhost:3306/multiworks";
@@ -22,8 +20,8 @@ public class Conexion {
             } catch (ClassNotFoundException | SQLException e) {
                 e.printStackTrace();
             }
-            return connection;
         }
+        return connection;
     }
 
     public static void closeConnection() {

@@ -13,7 +13,7 @@ public class UsuariosDAO {
 
     // Método para crear un nuevo usuario con el modelo simplificado
     public boolean crearUsuario(Usuarios usuario, String passwordPlana) {
-        String sql = "INSERT INTO usuarios (username, email, password) VALUES (?, ?, ?)";
+        String sql = "CALL sp_create_usuario (?, ?, ?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             // Hashear la contraseña antes de almacenarla

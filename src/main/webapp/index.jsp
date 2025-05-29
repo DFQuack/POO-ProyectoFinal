@@ -17,19 +17,20 @@
         </a>
     </h1>
     <div class="d-flex">
-        <div class="flex-fill text-center"><a href="vistas/clientes-lista.jsp" class="nav-link link cliente">Clientes</a></div>
+        <div class="flex-fill text-center"><a href="ClientesControlador?accion=tabla" class="nav-link link cliente">Clientes</a></div>
         <div class="flex-fill text-center"><a href="vistas/empleados-lista.jsp" class="nav-link link empleado">Empleados</a></div>
         <div class="flex-fill text-center"><a href="vistas/cotizaciones-lista.jsp" class="nav-link link cotiz">Cotizaciones</a></div>
+        <div class="flex-fill text-center"><a href="vistas/cuenta.jsp" class="nav-link link login">Cuenta</a></div>
     </div>
 </nav>
 <main class="container bg-negro2 my-5 p-5 text-center">
     <h2>Esta es la web app de Multi-Works Group™. Seleccione una opción.</h2>
-    <a href="vistas/clientes-lista.jsp" class="link menu cliente">Clientes</a>
+    <a href="ClientesControlador?accion=tabla" class="link menu cliente">Clientes</a>
     <a href="vistas/empleados-lista.jsp" class="link menu empleado">Empleados</a>
     <a href="vistas/cotizaciones-lista.jsp" class="link menu cotiz">Cotizaciones</a>
 </main>
 
-<footer class="container-fluid bg-negro1 p-5 text-center">
+<footer class="container-fluid bg-negro1 p-5 text-center" id="abajo">
     &copy; Todos los derechos reservados.<br>
     <a href="https://www.flaticon.com/free-icons/business-and-finance" class="link">Logo creado por Iconsmeet - Flaticon</a>
 </footer>

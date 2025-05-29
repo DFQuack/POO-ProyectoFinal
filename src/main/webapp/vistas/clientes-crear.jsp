@@ -18,9 +18,10 @@
         </a>
     </h1>
     <div class="d-flex">
-        <div class="flex-fill text-center"><a href="clientes-lista.jsp" class="nav-link link cliente-activo">Clientes</a></div>
+        <div class="flex-fill text-center"><a href="clientes-lista.jsp" class="nav-link link cliente">Clientes</a></div>
         <div class="flex-fill text-center"><a href="empleados-lista.jsp" class="nav-link link empleado">Empleados</a></div>
         <div class="flex-fill text-center"><a href="cotizaciones-lista.jsp" class="nav-link link cotiz">Cotizaciones</a></div>
+        <div class="flex-fill text-center"><a href="cuenta.jsp" class="nav-link link login">Cuenta</a></div>
     </div>
 </nav>
 <h2 class="display-6 text-center p-2 mt-5 header-cliente" id="fuente2">Añadir cliente</h2>

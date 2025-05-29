@@ -14,7 +14,7 @@ public class RegistroControlador extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Redirige directamente al JSP en la raíz de webapp
-        request.getRequestDispatcher("/registro.jsp").forward(request, response);
+        request.getRequestDispatcher("vistas/registro.jsp").forward(request, response);
     }
 
     @Override

@@ -11,6 +11,7 @@ import sv.edu.udb.pooproyectofinal.util.Conexion;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,8 +22,9 @@ import java.util.logging.Logger;
 @WebServlet(name = "UsuariosControlador", urlPatterns = {"/login"})
 public class UsuariosControlador extends HttpServlet {
 
-    private static final Logger LOGGER = Logger.getLogger(UsuariosControlador.class.getName());
+    @Serial
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger(UsuariosControlador.class.getName());
     private static final int MAX_INACTIVE_INTERVAL = 30 * 60; // 30 minutos en segundos
 
     @Override
