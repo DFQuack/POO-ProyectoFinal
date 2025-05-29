@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% String datos = request.getAttribute("resultado").toString(); %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -50,33 +51,13 @@
             </tr>
             </thead>
             <tbody class="text-dark">
-            <tr>
-                <td>AA111111</td>
-                <td>00000000-0</td>
-                <td>Nombre completo</td>
-                <td>Natural</td>
-                <td>9999-9999</td>
-                <td>abc@gmail.com</td>
-                <td>San Salvador</td>
-                <td>Permanente</td>
-                <td>Activo</td>
-                <td>Admin</td>
-                <td>2025-10-5</td>
-                <td>N/A</td>
-                <td>N/A</td>
-                <td>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-empleado">Editar</button>
-                        <button type="button" class="btn btn-empleado">Eliminar</button>
-                    </div>
-                </td>
-            </tr>
+            <%= datos %>
             </tbody>
         </table>
     </div>
 </main>
 
-<footer class="container-fluid bg-negro1 p-5 text-center">
+<footer class="container-fluid bg-negro1 mt-5 mb-0 p-5 text-center">
     &copy; Todos los derechos reservados.<br>
     <a href="https://www.flaticon.com/free-icons/business-and-finance" class="link">Logo creado por Iconsmeet - Flaticon</a>
 </footer>

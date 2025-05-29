@@ -4,7 +4,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import sv.edu.udb.pooproyectofinal.modelo.Clientes;
-import sv.edu.udb.pooproyectofinal.modelo.Usuarios;
 import sv.edu.udb.pooproyectofinal.util.Conexion;
 
 import java.io.IOException;
@@ -48,21 +47,7 @@ public class ClientesControlador extends HttpServlet {
                     // Generación de fila de datos
                     html.append("<tr>");
                     html.append("<td>").append(cli.getId()).append("</td>");
-                    html.append("<td>").append(rs.getString("dui")).append("</td>");
-                    html.append("<td>").append(rs.getString("nombre")).append("</td>");
-                    html.append("<td>").append(rs.getString("tipo_persona")).append("</td>");
-                    html.append("<td>").append(rs.getString("telefono")).append("</td>");
-                    html.append("<td>").append(rs.getString("email")).append("</td>");
-                    html.append("<td>").append(rs.getString("direccion")).append("</td>");
-                    if (rs.getBoolean("estado")) {
-                        html.append("<td>Activo</td>");
-                    } else {
-                        html.append("<td>Inactivo</td>");
-                    }
-                    html.append("<td>").append(rs.getString("creado_por")).append("</td>");
-                    html.append("<td>").append(rs.getDate("fecha_creacion")).append("</td>");
-                    html.append("<td>").append(rs.getString("fecha_actualizacion")).append("</td>");
-                    html.append("<td>").append(rs.getString("fecha_inactivacion")).append("</td>");
+                    EmpleadosControlador.datosTablaPersona(rs, html, false);
                     // Botón para editar
                     html.append("<td><div class=\"btn-group\">");
                     html.append("<a href=\"ClientesControlador?accion=form&editar=true&id=");
