@@ -124,7 +124,7 @@ VALUES
 INSERT INTO usuarios (username, email, password)
 VALUES ('admin', 'admin@multiworks.com', '123456');
 --
--- Procedimientos
+-- Procedimientos y vistas
 --
 DELIMITER $$
 
@@ -251,6 +251,11 @@ BEGIN
 END $$
 
 -- Para cotizaciones
+CREATE OR REPLACE VIEW vista_cotizaciones AS
+SELECT c.id, l.nombre, c.num_horas, c.fecha_inicio, c.fecha_fin, c.estado, c.costo_asignaciones, c.costos_adicionales, c.costo_total
+FROM cotizacion c
+JOIN cliente l ON c.id_cliente = l.id;
+
 CREATE PROCEDURE sp_create_cotizacion (
     IN p_id_cliente smallint,
     IN p_num_horas smallint,

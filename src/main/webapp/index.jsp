@@ -19,7 +19,7 @@
     <div class="d-flex">
         <div class="flex-fill text-center"><a href="ClientesControlador?accion=tabla" class="nav-link link cliente">Clientes</a></div>
         <div class="flex-fill text-center"><a href="EmpleadosControlador?accion=tabla" class="nav-link link empleado">Empleados</a></div>
-        <div class="flex-fill text-center"><a href="vistas/cotizaciones-lista.jsp" class="nav-link link cotiz">Cotizaciones</a></div>
+        <div class="flex-fill text-center"><a href="CotizacionesControlador?accion=tabla" class="nav-link link cotiz">Cotizaciones</a></div>
         <div class="flex-fill text-center"><a href="vistas/cuenta.jsp" class="nav-link link login">Cuenta</a></div>
     </div>
 </nav>
@@ -27,7 +27,7 @@
     <h2>Esta es la web app de Multi-Works Group™. Seleccione una opción.</h2>
     <a href="ClientesControlador?accion=tabla" class="link menu cliente">Clientes</a>
     <a href="EmpleadosControlador?accion=tabla" class="link menu empleado">Empleados</a>
-    <a href="vistas/cotizaciones-lista.jsp" class="link menu cotiz">Cotizaciones</a>
+    <a href="CotizacionesControlador?accion=tabla" class="link menu cotiz">Cotizaciones</a>
 </main>
 
 <footer class="container-fluid bg-negro1 p-5 text-center" id="abajo">

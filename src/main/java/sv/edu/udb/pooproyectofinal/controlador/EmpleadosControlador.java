@@ -64,7 +64,7 @@ public class EmpleadosControlador extends HttpServlet {
                 if (!hayDatos) {
                     html.append("No hay datos en esta tabla.");
                 }
-                conn.close();
+
                 request.setAttribute("resultado", html.toString());
                 request.getRequestDispatcher("vistas/empleados-lista.jsp").forward(request, response);
                 break;

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% String datos = request.getAttribute("resultado").toString(); %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,9 +19,9 @@
         </a>
     </h1>
     <div class="d-flex">
-        <div class="flex-fill text-center"><a href="clientes-lista.jsp" class="nav-link link cliente">Clientes</a></div>
-        <div class="flex-fill text-center"><a href="empleados-lista.jsp" class="nav-link link empleado">Empleados</a></div>
-        <div class="flex-fill text-center"><a href="cotizaciones-lista.jsp" class="nav-link link cotiz">Cotizaciones</a></div>
+        <div class="flex-fill text-center"><a href="../ClientesControlador?accion=tabla" class="nav-link link cliente">Clientes</a></div>
+        <div class="flex-fill text-center"><a href="../EmpleadosControlador?accion=tabla" class="nav-link link empleado">Empleados</a></div>
+        <div class="flex-fill text-center"><a href="../CotizacionesControlador?accion=tabla" class="nav-link link cotiz">Cotizaciones</a></div>
         <div class="flex-fill text-center"><a href="cuenta.jsp" class="nav-link link login">Cuenta</a></div>
     </div>
 </nav>
@@ -51,23 +52,7 @@
             </tr>
             </thead>
             <tbody class="text-dark">
-            <tr>
-                <td>1</td>
-                <td>Nombre completo</td>
-                <td>40</td>
-                <td>2025-01-02</td>
-                <td>2025-01-15</td>
-                <td>En proceso</td>
-                <td>500.00</td>
-                <td>1000.00</td>
-                <td>1500.00</td>
-                <td>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-cotiz">Editar</button>
-                        <button type="button" class="btn btn-cotiz">Eliminar</button>
-                    </div>
-                </td>
-            </tr>
+            <%= datos %>
             </tbody>
         </table>
     </div>
