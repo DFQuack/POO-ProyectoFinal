@@ -27,16 +27,12 @@
 <main class="container my-5 p-5">
     <form method="post" class="container px-5 form-cliente">
         <div class="form-floating mb-3">
-            <input type="number" class="form-control" name="id" id="id" placeholder="a" readonly value="1">
-            <label for="id">ID (establecido por sistema)</label>
+            <input type="text" class="form-control" name="dui" id="dui" placeholder="a">
+            <label for="dui">DUI</label>
         </div>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" name="nombre" id="nombre" placeholder="a">
             <label for="nombre">Nombre completo</label>
-        </div>
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="dui" id="dui" placeholder="a">
-            <label for="dui">DUI</label>
         </div>
         <div class="form-floating mb-3">
             <select class="form-select" id="tipo" name="tipo">

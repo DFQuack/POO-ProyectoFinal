@@ -43,9 +43,9 @@
                 <th>Fecha de inicio</th>
                 <th>Fecha de fin</th>
                 <th>Estado</th>
-                <th>Costo asignaciones</th>
-                <th>Costos adicionales</th>
-                <th>Total</th>
+                <th>Costo asignaciones ($)</th>
+                <th>Costos adicionales ($)</th>
+                <th>Total ($)</th>
                 <th>Opciones</th>
             </tr>
             </thead>
@@ -57,9 +57,9 @@
                 <td>2025-01-02</td>
                 <td>2025-01-15</td>
                 <td>En proceso</td>
-                <td>$500.00</td>
-                <td>$1000.00</td>
-                <td>$1500.00</td>
+                <td>500.00</td>
+                <td>1000.00</td>
+                <td>1500.00</td>
                 <td>
                     <div class="btn-group">
                         <button type="button" class="btn btn-cotiz">Editar</button>

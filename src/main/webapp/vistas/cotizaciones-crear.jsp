@@ -27,10 +27,6 @@
 <main class="container my-5 p-5">
     <form method="post" class="container px-5 form-cotiz">
         <div class="form-floating mb-3">
-            <input type="number" class="form-control" name="id" id="id" placeholder="a" readonly value="1">
-            <label for="id">ID (establecido por sistema)</label>
-        </div>
-        <div class="form-floating mb-3">
             <select class="form-select" id="cliente" name="cliente">
                 <option>Cliente 1</option>
                 <option>Cliente 2</option>
@@ -55,11 +51,11 @@
         </div>
         <div class="form-floating mb-3">
             <input type="number" class="form-control" name="costo1" id="costo1" placeholder="a">
-            <label for="costo1">Costo de asignaciones</label>
+            <label for="costo1">Costo de asignaciones ($)</label>
         </div>
         <div class="form-floating mb-3">
             <input type="number" class="form-control" name="costo2" id="costo2" placeholder="a">
-            <label for="costo2">Costos adicionales</label>
+            <label for="costo2">Costos adicionales ($)</label>
         </div>
         <div class="text-center mt-3">
             <button type="submit" class="btn btn-cotiz">Añadir</button>

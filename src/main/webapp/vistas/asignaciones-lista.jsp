@@ -46,8 +46,8 @@
                 <th>Tiempo de fin</th>
                 <th>Costo por hora</th>
                 <th>Núm. horas (aprox.)</th>
-                <th>Costo base</th>
-                <th>Incremento extra</th>
+                <th>Costo base ($)</th>
+                <th>Incremento extra (%)</th>
                 <th>Total</th>
                 <th>Opciones</th>
             </tr>

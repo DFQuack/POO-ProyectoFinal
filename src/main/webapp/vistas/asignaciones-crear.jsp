@@ -27,10 +27,6 @@
 <main class="container my-5 p-5">
     <form method="post" class="container px-5 form-cotiz">
         <div class="form-floating mb-3">
-            <input type="number" class="form-control" name="id" id="id" placeholder="a" readonly value="1">
-            <label for="id">ID (establecido por sistema)</label>
-        </div>
-        <div class="form-floating mb-3">
             <select class="form-select" id="cliente" name="cliente">
                 <option>Cotización 1</option>
                 <option>Cotización 2</option>

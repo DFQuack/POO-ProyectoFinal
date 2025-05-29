@@ -32,9 +32,9 @@
         <table class="table text-center alinear">
             <thead class="text-light tabla-empleado">
             <tr>
-                <th>ID</th>
-                <th>Nombre completo</th>
+                <th>Carnet</th>
                 <th>DUI</th>
+                <th>Nombre completo</th>
                 <th>Tipo de persona</th>
                 <th>Núm. teléfono</th>
                 <th>Correo electrónico</th>
@@ -50,9 +50,9 @@
             </thead>
             <tbody class="text-dark">
             <tr>
-                <td>1</td>
-                <td>Nombre completo</td>
+                <td>AA111111</td>
                 <td>00000000-0</td>
+                <td>Nombre completo</td>
                 <td>Natural</td>
                 <td>9999-9999</td>
                 <td>abc@gmail.com</td>
