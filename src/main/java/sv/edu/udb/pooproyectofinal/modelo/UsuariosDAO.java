@@ -38,7 +38,7 @@ public class UsuariosDAO {
         return false;
     }
 
-    // Método adicional para verificar credenciales de usuario
+    // Forma adicional para verificar credenciales de usuario
     public Usuarios verificarUsuario(String username, String passwordPlana) {
         String sql = "SELECT * FROM usuarios WHERE username = ?";
 

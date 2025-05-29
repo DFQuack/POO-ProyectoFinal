@@ -50,7 +50,7 @@
           </form>
         </div>
         <div class="card-footer text-center">
-          ¿Ya tienes cuenta? <a href="${pageContext.request.contextPath}/login.jsp">Inicia sesión aquí</a>
+          ¿Ya tienes cuenta? <a href="${pageContext.request.contextPath}/vistas/login.jsp">Inicia sesión aquí</a>
         </div>
       </div>
     </div>

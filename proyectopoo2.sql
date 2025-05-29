@@ -15,7 +15,7 @@ CREATE TABLE cliente (
     email varchar(100) NOT NULL,
     direccion varchar(200) NOT NULL,
     estado boolean NOT NULL DEFAULT 1,
-    creado_por varchar(50) NOT NULL DEFAULT CURRENT_USER,
+    creado_por varchar(50) NOT NULL DEFAULT (CURRENT_USER()),
     fecha_creacion datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_actualizacion datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
     fecha_inactivacion datetime DEFAULT NULL
@@ -31,7 +31,7 @@ CREATE TABLE empleado (
     direccion varchar(200) NOT NULL,
     tipo_contratacion varchar(20) NOT NULL,
     estado boolean NOT NULL DEFAULT 1,
-    creado_por varchar(50) NOT NULL DEFAULT CURRENT_USER,
+    creado_por varchar(50) NOT NULL DEFAULT (CURRENT_USER()),
     fecha_creacion datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_actualizacion datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
     fecha_inactivacion datetime DEFAULT NULL
@@ -70,8 +70,8 @@ CREATE TABLE asignacion (
 CREATE TABLE subtarea (
     id mediumint PRIMARY KEY AUTO_INCREMENT,
     id_asignacion mediumint,
-    nombre varchar(50) NOT NULL,
-    descripcion varchar(200) NOT NULL,
+    nombre varchar(200) NOT NULL,
+    descripcion varchar(500) NOT NULL,
     CONSTRAINT fk_subt_asignacion FOREIGN KEY (id_asignacion) REFERENCES asignacion(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -81,7 +81,7 @@ CREATE TABLE usuarios (
     email varchar(100) NOT NULL,
     password varchar(50) NOT NULL,
     estado boolean NOT NULL DEFAULT 1,
-    creado_por varchar(100) NOT NULL DEFAULT CURRENT_USER,
+    creado_por varchar(100) NOT NULL DEFAULT (CURRENT_USER()),
     fecha_creacion datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_actualizacion datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
     fecha_inactivacion datetime DEFAULT NULL
@@ -120,6 +120,9 @@ VALUES
     (1, 'Subtarea 2 de la implementación de cableado estructurado', 'Descripción de la subtarea 2 de la implementación de cableado estructurado'),
     (3, 'Subtarea 1 de la labor de mecánica', 'Descripción de la subtarea 1 de la labor de mecánica'),
     (3, 'Subtarea 2 de la labor de mecánica', 'Descripción de la subtarea 2 de la labor de mecánica');
+
+INSERT INTO usuarios (username, email, password)
+VALUES ('admin', 'admin@multiworks.com', '123456');
 --
 -- Procedimientos
 --
@@ -132,38 +135,29 @@ BEGIN
     VALUES (p_username, p_email, p_password);
 END $$
 
-CREATE PROCEDURE sp_delete_usuario (IN p_id INT)
+CREATE PROCEDURE sp_delete_usuario (IN p_id tinyint)
 BEGIN
     DELETE FROM usuarios WHERE id = p_id;
 END $$
 
-CREATE PROCEDURE sp_get_usuarios
+CREATE PROCEDURE sp_update_usuario (
+    IN p_username VARCHAR(50),
+    IN p_email VARCHAR(100),
+    IN p_password VARCHAR(50),
+    IN p_estado boolean, IN p_id INT
+)
 BEGIN
-    SELECT id, username, email, estado, creado_por, fecha_creacion, fecha_actualizacion, fecha_inactivacion FROM usuarios;
-END $$
-
-CREATE PROCEDURE sp_read_usuario_by_email (IN p_email VARCHAR(100))   BEGIN
-    SELECT * FROM usuarios WHERE email = p_email;
-END $$
-
-CREATE PROCEDURE sp_read_usuario_by_id (IN p_id INT)   BEGIN
-    SELECT * FROM usuarios WHERE id = p_id;
-END $$
-
-CREATE PROCEDURE sp_read_usuario_by_username (IN p_username VARCHAR(50))   BEGIN
-    SELECT * FROM usuarios WHERE username = p_username;
-END $$
-
-CREATE PROCEDURE sp_update_usuario (IN p_id INT, IN p_username VARCHAR(50), IN p_email VARCHAR(100), IN p_password VARCHAR(255))   BEGIN
     UPDATE usuarios 
     SET 
         username = p_username,
+        email = p_email,
         password = p_password,
-        email = p_email
+        estado = p_estado
     WHERE id = p_id;
 END $$
 
-CREATE PROCEDURE sp_verify_login (IN p_username VARCHAR(50), IN p_password VARCHAR(255))   BEGIN
+CREATE PROCEDURE sp_verify_login (IN p_username VARCHAR(50), IN p_password VARCHAR(50))
+BEGIN
     SELECT id, username, email FROM usuarios 
     WHERE username = p_username AND password = p_password;
 END $$
@@ -180,16 +174,6 @@ CREATE PROCEDURE sp_create_cliente (
 BEGIN
     INSERT INTO cliente (dui, nombre, tipo_persona, telefono, email, direccion)
     VALUES (p_dui, p_nombre, p_tipo_persona, p_telefono, p_email, p_direccion);
-END $$
-
-CREATE PROCEDURE sp_read_cliente_by_id (IN p_id INT)
-BEGIN
-    SELECT * FROM usuarios WHERE id = p_id;
-END $$
-
-CREATE PROCEDURE sp_get_clientes
-BEGIN
-    SELECT * FROM cliente;
 END $$
 
 CREATE PROCEDURE sp_update_cliente (
@@ -236,16 +220,6 @@ BEGIN
     VALUES (p_carnet, p_dui, p_nombre, p_tipo_persona, p_telefono, p_email, p_direccion, p_tipo_contratacion);
 END $$
 
-CREATE PROCEDURE sp_read_empleado_by_id (IN p_carnet INT)
-BEGIN
-    SELECT * FROM empleado WHERE carnet = p_carnet;
-END $$
-
-CREATE PROCEDURE sp_read_all_empleados ()
-BEGIN
-    SELECT * FROM empleado;
-END $$
-
 CREATE PROCEDURE sp_update_empleado (
     IN p_carnet char(8),
     IN p_dui char(10),
@@ -290,16 +264,6 @@ CREATE PROCEDURE sp_create_cotizacion (
 BEGIN
     INSERT INTO cotizacion (id_cliente, num_horas, fecha_inicio, fecha_fin, estado, costo_asignaciones, costos_adicionales, costo_total)
     VALUES (p_id_cliente, p_num_horas, p_fecha_inicio, p_fecha_fin, p_estado, p_costo_asignaciones, p_costos_adicionales, p_costo_total);
-END $$
-
-CREATE PROCEDURE sp_read_cotizacion_by_id (IN p_id INT)
-BEGIN
-    SELECT * FROM cotizacion WHERE id = p_id;
-END $$
-
-CREATE PROCEDURE sp_get_cotizaciones
-BEGIN
-    SELECT * FROM cotizacion;
 END $$
 
 CREATE PROCEDURE sp_update_cotizacion (
@@ -349,16 +313,6 @@ CREATE PROCEDURE sp_create_asignacion (
 BEGIN
     INSERT INTO asignacion (id_cotizacion, titulo, carnet_empleado, area, tiempo_inicio, tiempo_fin, costo_hora, num_horas, costo_base, incremento_extra, costo_total)
     VALUES (p_id_cotizacion, p_titulo, p_carnet_empleado, p_area, p_tiempo_inicio, p_tiempo_fin, p_costo_hora, p_num_horas, p_costo_base, p_incremento_extra, p_costo_total);
-END $$
-
-CREATE PROCEDURE sp_read_asignacion_by_id (IN p_id INT)
-BEGIN
-    SELECT * FROM asignacion WHERE id = p_id;
-END $$
-
-CREATE PROCEDURE sp_get_asignaciones ()
-BEGIN
-    SELECT * FROM asignacion;
 END $$
 
 CREATE PROCEDURE sp_update_asignacion(

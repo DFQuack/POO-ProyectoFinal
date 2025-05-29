@@ -13,7 +13,7 @@ public class Conexion {
         } else {
             try {
                 String driver = "com.mysql.cj.jdbc.Driver";
-                String url = "jdbc:mysql://localhost:3306/proyectopoo";
+                String url = "jdbc:mysql://localhost:3306/multiworks";
                 String user = "root";
                 String password = "";
 
