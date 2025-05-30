@@ -1,4 +1,6 @@
+<%@ page import="sv.edu.udb.pooproyectofinal.modelo.Clientes" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<% Clientes cli = (Clientes) request.getAttribute("cliente"); %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -28,11 +30,11 @@
 <main class="container my-5 p-5">
     <form method="post" class="container px-5 form-cliente">
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="dui" id="dui" placeholder="a">
+            <input type="text" class="form-control" name="dui" id="dui" placeholder="a" value="<%= cli.getDui() %>">
             <label for="dui">DUI</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="nombre" id="nombre" placeholder="a">
+            <input type="text" class="form-control" name="nombre" id="nombre" placeholder="a" value="<%= cli.getNombre() %>">
             <label for="nombre">Nombre completo</label>
         </div>
         <div class="form-floating mb-3">
@@ -43,15 +45,15 @@
             <label for="tipo">Tipo de persona</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="tel" class="form-control" name="tel" id="tel" placeholder="a">
+            <input type="tel" class="form-control" name="tel" id="tel" placeholder="a" value="<%= cli.getTelefono() %>">
             <label for="tel">Número de teléfono</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" name="correo" id="correo" placeholder="a">
+            <input type="email" class="form-control" name="correo" id="correo" placeholder="a" value="<%= cli.getEmail() %>">
             <label for="correo">Correo electrónico</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="direccion" id="direccion" placeholder="a">
+            <input type="text" class="form-control" name="direccion" id="direccion" placeholder="a" value="<%= cli.getDireccion() %>">
             <label for="direccion">Dirección</label>
         </div>
         <div class="form-floating mb-3">
@@ -62,7 +64,7 @@
             <label for="estado">Estado</label>
         </div>
         <div class="text-center mt-3">
-            <button type="submit" class="btn btn-cliente">Añadir</button>
+            <button type="submit" class="btn btn-cliente">Efectuar cambios</button>
         </div>
     </form>
 </main>

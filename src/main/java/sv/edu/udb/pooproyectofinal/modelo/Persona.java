@@ -1,7 +1,7 @@
 package sv.edu.udb.pooproyectofinal.modelo;
 
 public class Persona {
-    protected String dui, nombre, tipo_persona, telefono, email, direccion;
+    protected String dui, nombre, tipoPersona, telefono, email, direccion;
     protected boolean estado;
     protected String creadoPor, fechaCreacion, fechaActualizacion, fechaInactivacion;
 
@@ -23,12 +23,12 @@ public class Persona {
         this.nombre = nombre;
     }
 
-    public String getTipo_persona() {
-        return tipo_persona;
+    public String getTipoPersona() {
+        return tipoPersona;
     }
 
-    public void setTipo_persona(String tipo_persona) {
-        this.tipo_persona = tipo_persona;
+    public void setTipoPersona(String tipoPersona) {
+        this.tipoPersona = tipoPersona;
     }
 
     public String getTelefono() {

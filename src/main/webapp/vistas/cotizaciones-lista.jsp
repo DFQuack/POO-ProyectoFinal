@@ -58,7 +58,7 @@
     </div>
 </main>
 
-<footer class="container-fluid bg-negro1 p-5 text-center">
+<footer class="container-fluid bg-negro1 mt-5 mb-0 p-5 text-center">
     &copy; Todos los derechos reservados.<br>
     <a href="https://www.flaticon.com/free-icons/business-and-finance" class="link">Logo creado por Iconsmeet - Flaticon</a>
 </footer>

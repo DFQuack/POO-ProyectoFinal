@@ -50,7 +50,7 @@ public class ClientesControlador extends HttpServlet {
                     EmpleadosControlador.datosTablaPersona(rs, html, false);
                     // Botón para editar
                     html.append("<td><div class=\"btn-group\">");
-                    html.append("<a href=\"ClientesControlador?accion=form&editar=true&id=");
+                    html.append("<a href=\"ClientesControlador?accion=editar&id=");
                     html.append(cli.getId());
                     html.append("\" class=\"btn btn-cliente\">Editar</a>");
                     // Botón para eliminar
@@ -67,7 +67,20 @@ public class ClientesControlador extends HttpServlet {
                 request.setAttribute("resultado", html.toString());
                 request.getRequestDispatcher("vistas/clientes-lista.jsp").forward(request, response);
                 break;
-            case "form":
+            case "editar": // Para colocar los valores de la fila en los input al editar
+                cli.setId(Integer.parseInt(request.getParameter("id")));
+                rs = st.executeQuery("SELECT * FROM cliente WHERE id = " + cli.getId());
+                while (rs.next()) {
+                    cli.setDui(rs.getString("dui"));
+                    cli.setNombre(rs.getString("nombre"));
+                    cli.setTipoPersona(rs.getString("tipo_persona"));
+                    cli.setTelefono(rs.getString("telefono"));
+                    cli.setEmail(rs.getString("email"));
+                    cli.setDireccion(rs.getString("direccion"));
+                    cli.setEstado(rs.getBoolean("estado"));
+                    request.setAttribute("cliente", cli);
+                }
+                request.getRequestDispatcher("vistas/clientes-editar.jsp").forward(request, response);
                 break;
         }
     }
