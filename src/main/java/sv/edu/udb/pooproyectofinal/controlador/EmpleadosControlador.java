@@ -1,93 +1,145 @@
-package sv.edu.udb.pooproyectofinal.modelo;
+package sv.edu.udb.pooproyectofinal.controlador;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
+import sv.edu.udb.pooproyectofinal.modelo.Empleados;
+import sv.edu.udb.pooproyectofinal.util.Conexion;
+
+import java.io.IOException;
 import java.sql.*;
 
-public class Empleados extends Persona {
-    private String carnet;
-    private String tipoContratacion;
-    
-    public Empleados() {}
+@WebServlet(name = "EmpleadosControlador", urlPatterns = "/EmpleadosControlador")
+public class EmpleadosControlador extends HttpServlet {
 
-    // Getters y setters
-    public String getCarnet() {
-        return carnet;
-    }
-
-    public void setCarnet(String carnet) {
-        this.carnet = carnet;
-    }
-
-    public String getTipoContratacion() {
-        return tipoContratacion;
-    }
-
-    public void setTipoContratacion(String tipoContratacion) {
-        this.tipoContratacion = tipoContratacion;
-    }
-
-    // Métodos para operaciones con la base de datos
-    public boolean insertar(Connection conn) throws SQLException {
-        String sql = "INSERT INTO empleado (carnet, dui, nombre, tipo_persona, telefono, email, direccion, tipo_contratacion, estado, creado_por) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, this.carnet);
-            pstmt.setString(2, this.getDui());
-            pstmt.setString(3, this.getNombre());
-            pstmt.setString(4, this.getTipoPersona());
-            pstmt.setString(5, this.getTelefono());
-            pstmt.setString(6, this.getEmail());
-            pstmt.setString(7, this.getDireccion());
-            pstmt.setString(8, this.tipoContratacion);
-            pstmt.setBoolean(9, this.isEstado());
-            pstmt.setString(10, this.getCreadoPor());
-            
-            return pstmt.executeUpdate() > 0;
+    public void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            ProcessRequest(request, response);
+        } catch (SQLException | ServletException | IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public boolean actualizar(Connection conn) throws SQLException {
-        String sql = "UPDATE empleado SET dui=?, nombre=?, tipo_persona=?, telefono=?, email=?, " +
-                     "direccion=?, tipo_contratacion=?, estado=?, actualizado_por=?, fecha_actualizacion=CURRENT_TIMESTAMP " +
-                     "WHERE carnet=?";
-        
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, this.getDui());
-            pstmt.setString(2, this.getNombre());
-            pstmt.setString(3, this.getTipoPersona());
-            pstmt.setString(4, this.getTelefono());
-            pstmt.setString(5, this.getEmail());
-            pstmt.setString(6, this.getDireccion());
-            pstmt.setString(7, this.tipoContratacion);
-            pstmt.setBoolean(8, this.isEstado());
-            pstmt.setString(9, this.getActualizadoPor());
-            pstmt.setString(10, this.carnet);
-            
-            return pstmt.executeUpdate() > 0;
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            ProcessRequest(request, response);
+        } catch (SQLException | ServletException | IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public boolean cargarPorId(Connection conn, String carnet) throws SQLException {
-        String sql = "SELECT * FROM empleado WHERE carnet = ?";
-        
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, carnet);
-            ResultSet rs = pstmt.executeQuery();
-            
-            if (rs.next()) {
-                this.carnet = rs.getString("carnet");
-                this.setDui(rs.getString("dui"));
-                this.setNombre(rs.getString("nombre"));
-                this.setTipoPersona(rs.getString("tipo_persona"));
-                this.setTelefono(rs.getString("telefono"));
-                this.setEmail(rs.getString("email"));
-                this.setDireccion(rs.getString("direccion"));
-                this.tipoContratacion = rs.getString("tipo_contratacion"));
-                this.setEstado(rs.getBoolean("estado"));
-                this.setCreadoPor(rs.getString("creado_por"));
-                return true;
-            }
-            return false;
+    protected void ProcessRequest(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        Connection conn = Conexion.getConnection();
+        Statement st = conn.createStatement();
+        PreparedStatement pst;
+        ResultSet rs;
+        Empleados emp = new Empleados();
+        StringBuilder html = new StringBuilder();
+        boolean hayDatos = false;
+
+        String accion = request.getParameter("accion");
+        if (accion == null) accion = "tabla"; // Acción por defecto
+
+        switch (accion) {
+            case "tabla": // Para mostrar la tabla con los datos
+                rs = st.executeQuery("SELECT * FROM empleado");
+                while (rs.next()) {
+                    emp.setCarnet(rs.getString("carnet"));
+                    html.append("<tr>");
+                    html.append("<td>").append(emp.getCarnet()).append("</td>");
+                    datosTablaPersona(rs, html, true);
+                    // Botones de acción
+                    html.append("<td><div class=\"btn-group\">");
+                    html.append("<a href=\"EmpleadosControlador?accion=editar&id=");
+                    html.append(emp.getCarnet());
+                    html.append("\" class=\"btn btn-empleado\">Editar</a>");
+                    html.append("<a href=\"EmpleadosControlador?accion=pag-borrar&id=");
+                    html.append(emp.getCarnet());
+                    html.append("\" class=\"btn btn-empleado\">Eliminar</a>");
+                    html.append("</div></td>");
+                    html.append("</tr>");
+                    hayDatos = true;
+                }
+                if (!hayDatos) {
+                    html.append("<tr><td colspan='12'>No hay datos en esta tabla.</td></tr>");
+                }
+
+                request.setAttribute("resultado", html.toString());
+                request.getRequestDispatcher("vistas/empleados-lista.jsp").forward(request, response);
+                break;
+            case "crear":
+                response.sendRedirect("http://localhost:8080/vistas/empleados-crear.jsp");
+                break;
+            case "editar": // Para colocar los valores de la fila en los input al editar
+                request.getRequestDispatcher("vistas/empleados-editar.jsp").forward(request, response);
+                break;
+            case "insertar": // Al subir el formulario para crear un registro
+                // Obtener parámetros del formulario
+                emp.setCarnet(request.getParameter("carnet"));
+                emp.setDui(request.getParameter("dui"));
+                emp.setNombre(request.getParameter("nombre"));
+                emp.setTipoPersona(request.getParameter("tipo_persona"));
+                emp.setTelefono(request.getParameter("telefono"));
+                emp.setEmail(request.getParameter("email"));
+                emp.setDireccion(request.getParameter("direccion"));
+                emp.setTipoContratacion(request.getParameter("tipo_contratacion"));
+                emp.setEstado(Boolean.parseBoolean(request.getParameter("estado")));
+                emp.setCreadoPor(request.getParameter("creado_por"));
+
+                break;
+            case "actualizar": // Al subir el formulario para actualizar un registro
+                break;
+            case "pag-borrar": // Lleva a la página de confirmación de borrado
+                emp.setCarnet(request.getParameter("id"));
+                if (emp.getCarnet() != null && !emp.getCarnet().isEmpty()) {
+                    request.setAttribute("carnet", emp.getCarnet());
+                    request.getRequestDispatcher("vistas/empleados-eliminar.jsp").forward(request, response);
+                }
+                break;
+            case "borrar":
+                emp.setCarnet(request.getParameter("id"));
+                if (emp.getCarnet() != null && !emp.getCarnet().isEmpty()) {
+                    pst = conn.prepareStatement("CALL sp_delete_empleado(?)");
+                    pst.setString(1, emp.getCarnet());
+                    pst.executeUpdate();
+                    response.sendRedirect("EmpleadosControlador?accion=tabla");
+                }
+                break;
+            default:
+                response.sendRedirect("EmpleadosControlador?accion=tabla");
+        }
+    }
+
+    static void datosTablaPersona(ResultSet rs, StringBuilder html, boolean isEmpleado) throws SQLException {
+        if (rs.getString("dui") == null) {
+            html.append("<td>N/A</td>");
+        } else {
+            html.append("<td>").append(rs.getString("dui")).append("</td>");
+        }
+        html.append("<td>").append(rs.getString("nombre")).append("</td>");
+        html.append("<td>").append(rs.getString("tipo_persona")).append("</td>");
+        html.append("<td>").append(rs.getString("telefono")).append("</td>");
+        html.append("<td>").append(rs.getString("email")).append("</td>");
+        html.append("<td>").append(rs.getString("direccion")).append("</td>");
+        if (isEmpleado) {
+            html.append("<td>").append(rs.getString("tipo_contratacion")).append("</td>");
+        }
+        if (rs.getBoolean("estado")) {
+            html.append("<td>Activo</td>");
+        } else {
+            html.append("<td>Inactivo</td>");
+        }
+        html.append("<td>").append(rs.getString("creado_por")).append("</td>");
+        html.append("<td>").append(rs.getDate("fecha_creacion")).append("</td>");
+        if (rs.getString("fecha_actualizacion") == null) {
+            html.append("<td>N/A</td>");
+        } else {
+            html.append("<td>").append(rs.getString("fecha_actualizacion")).append("</td>");
+        }
+        if (rs.getString("fecha_inactivacion") == null) {
+            html.append("<td>N/A</td>");
+        } else {
+            html.append("<td>").append(rs.getString("fecha_inactivacion")).append("</td>");
         }
     }
 }

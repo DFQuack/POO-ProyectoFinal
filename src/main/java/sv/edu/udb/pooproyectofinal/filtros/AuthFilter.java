@@ -18,7 +18,7 @@ public class AuthFilter implements Filter {
         String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
 
         // URLs públicas (no requieren autenticación)
-        if (path.startsWith("/login") ||
+        if (path.startsWith("/login.jsp") ||
                 path.startsWith("/css/") ||
                 path.startsWith("/js/") ||
                 path.startsWith("/img/") ||
@@ -28,17 +28,13 @@ public class AuthFilter implements Filter {
         }
 
         // Verificar sesión
-        HttpSession session = httpRequest.getSession(false);
-        if (session == null || session.getAttribute("usuario") == null) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");
-            return;
-        }
 
+        HttpSession session = httpRequest.getSession(false);
         chain.doFilter(request, response);  // Continuar si el usuario está autenticado
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {}
+    public void init(FilterConfig filterConfig) {}
 
     @Override
     public void destroy() {}

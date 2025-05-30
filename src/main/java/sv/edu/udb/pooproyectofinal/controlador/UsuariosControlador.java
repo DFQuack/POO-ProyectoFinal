@@ -59,8 +59,8 @@ public class UsuariosControlador extends HttpServlet {
             LOGGER.log(Level.SEVERE, "Error de base de datos", e);
             handleError(request, response, "Error en el sistema. Por favor intente más tarde.");
         }
-    }
 
+    }
     private Usuarios validarUsuario(Connection conn, String username, String password) throws SQLException {
         Usuarios usuario = null;
         String query = "SELECT username, email, password FROM usuarios WHERE username = ?";
@@ -88,13 +88,13 @@ public class UsuariosControlador extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Redirige a login.jsp pero usando el contexto correcto
-        response.sendRedirect(request.getContextPath() + "/login");
+        response.sendRedirect("http://localhost:8080/vistas/login.jsp");
     }
 
     private void handleError(HttpServletRequest request, HttpServletResponse response, String errorMessage)
             throws ServletException, IOException {
         request.getSession().setAttribute("error", errorMessage);
-        response.sendRedirect(request.getContextPath() + "/login");
+        response.sendRedirect("http://localhost:8080/vistas/login.jsp");
     }
 
     // Agrega este método para verificar sesión
@@ -102,4 +102,5 @@ public class UsuariosControlador extends HttpServlet {
         HttpSession session = request.getSession(false);
         return session != null && session.getAttribute("usuario") != null;
     }
+
 }

@@ -20,7 +20,7 @@
     </h1>
     <div class="d-flex">
         <div class="flex-fill text-center"><a href="../ClientesControlador?accion=tabla" class="nav-link link cliente">Clientes</a></div>
-        <div class="flex-fill text-center"><a href="../EmpleadosControlador?accion=tabla" class="nav-link link empleado">Empleados</a></div>
+        <div class="flex-fill text-center"><a href="../EmpleadosControlador?accion=tabla" class="nav-link link empleado-activo">Empleados</a></div>
         <div class="flex-fill text-center"><a href="../CotizacionesControlador?accion=tabla" class="nav-link link cotiz">Cotizaciones</a></div>
         <div class="flex-fill text-center"><a href="cuenta.jsp" class="nav-link link login">Cuenta</a></div>
     </div>
@@ -28,7 +28,7 @@
 <main class="container my-5 p-5 text-center">
     <div class="header header-empleado p-2 d-flex justify-content-between">
         <h2 class="mb-0">Lista de empleados</h2>
-        <a href="empleados-crear.jsp" class="btn btn-empleado d-flex align-items-center"><span class="material-symbols-outlined">add</span>Añadir empleado</a>
+        <a href="../EmpleadosControlador?accion=crear" class="btn btn-empleado d-flex align-items-center"><span class="material-symbols-outlined">add</span>Añadir empleado</a>
     </div>
     <div class="table-responsive">
         <table class="table text-center alinear">

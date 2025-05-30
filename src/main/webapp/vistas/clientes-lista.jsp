@@ -28,7 +28,9 @@
 <main class="container my-5 py-5 px-0 text-center">
     <div class="header header-cliente p-2 d-flex justify-content-between">
         <h2 class="mb-0">Lista de clientes</h2>
-        <a href="clientes-crear.jsp" class="btn btn-cliente d-flex align-items-center"><span class="material-symbols-outlined">add</span>Añadir cliente</a>
+        <a href="../ClientesControlador?accion=crear" class="btn btn-cliente d-flex align-items-center">
+            <span class="material-symbols-outlined">add</span>Añadir cliente
+        </a>
     </div>
     <div class="table-responsive">
         <table class="table text-center alinear">

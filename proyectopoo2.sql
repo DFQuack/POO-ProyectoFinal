@@ -386,5 +386,28 @@ CREATE PROCEDURE sp_delete_subtarea (IN p_id INT)
 BEGIN
     DELETE FROM subtarea WHERE id = p_id;
 END $$
+--
+-- Triggers
+--
 
+CREATE TRIGGER cliente_inactivo_update BEFORE UPDATE ON cliente FOR EACH ROW
+BEGIN
+    IF (NEW.estado = 0 AND OLD.estado != 0) THEN
+        SET NEW.fecha_inactivacion = CURRENT_TIMESTAMP;
+    END IF;
+END $$
+
+CREATE TRIGGER empleado_inactivo_update BEFORE UPDATE ON empleado FOR EACH ROW
+BEGIN
+    IF (NEW.estado = 0 AND OLD.estado != 0) THEN
+        SET NEW.fecha_inactivacion = CURRENT_TIMESTAMP;
+    END IF;
+END $$
+
+CREATE TRIGGER usuario_inactivo_update BEFORE UPDATE ON usuarios FOR EACH ROW
+BEGIN
+    IF (NEW.estado = 0 AND OLD.estado != 0) THEN
+        SET NEW.fecha_inactivacion = CURRENT_TIMESTAMP;
+    END IF;
+END $$
 DELIMITER ;
