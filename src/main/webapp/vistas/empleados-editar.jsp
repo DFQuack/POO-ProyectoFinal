@@ -1,4 +1,6 @@
+<%@ page import="sv.edu.udb.pooproyectofinal.modelo.Empleados" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<% Empleados emp = (Empleados) request.getAttribute("empleado");%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,40 +23,42 @@
         <div class="flex-fill text-center"><a href="../ClientesControlador?accion=tabla" class="nav-link link cliente">Clientes</a></div>
         <div class="flex-fill text-center"><a href="../EmpleadosControlador?accion=tabla" class="nav-link link empleado-activo">Empleados</a></div>
         <div class="flex-fill text-center"><a href="../CotizacionesControlador?accion=tabla" class="nav-link link cotiz">Cotizaciones</a></div>
+        <div class="flex-fill text-center"><a href="cuenta.jsp" class="nav-link link login">Cuenta</a></div>
     </div>
 </nav>
 <h2 class="display-6 text-center p-2 mt-5 header-empleado" id="fuente2">Añadir empleado</h2>
 <main class="container my-5 p-5">
-    <form action="../EmpleadosControlador?accion=actualizar" method="post" class="container px-5 form-empleado">
+    <form action="../EmpleadosControlador" method="post" class="container px-5 form-empleado">
+        <input type="hidden" name="accion" value="actualizar">
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="carnet" id="carnet" placeholder="a" readonly>
+            <input type="text" class="form-control" name="carnet" id="carnet" placeholder="a" value="<%= emp.getCarnet() %>" readonly>
             <label for="carnet">Carnet</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="dui" id="dui" placeholder="a">
+            <input type="text" class="form-control" name="dui" id="dui" placeholder="a" value="<%= emp.getDui() %>">
             <label for="dui">DUI</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="nombre" id="nombre" placeholder="a">
+            <input type="text" class="form-control" name="nombre" id="nombre" placeholder="a" value="<%= emp.getNombre() %>">
             <label for="nombre">Nombre completo</label>
         </div>
         <div class="form-floating mb-3">
-            <select class="form-select" id="tipo" name="tipo">
-                <option>Natural</option>
-                <option>Jurídica</option>
+            <select class="form-select" id="tipo_persona" name="tipo_persona">
+                <option value="1">Natural</option>
+                <option value="2">Jurídica</option>
             </select>
-            <label for="tipo">Tipo de persona</label>
+            <label for="tipo_persona">Tipo de persona</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="tel" class="form-control" name="tel" id="tel" placeholder="a">
+            <input type="tel" class="form-control" name="tel" id="tel" placeholder="a" value="<%= emp.getTelefono() %>">
             <label for="tel">Número de teléfono</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" name="correo" id="correo" placeholder="a">
+            <input type="email" class="form-control" name="correo" id="correo" placeholder="a" value="<%= emp.getEmail() %>">
             <label for="correo">Correo electrónico</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="direccion" id="direccion" placeholder="a">
+            <input type="text" class="form-control" name="direccion" id="direccion" placeholder="a" value="<%= emp.getDireccion() %>">
             <label for="direccion">Dirección</label>
         </div>
         <div class="form-floating mb-3">
@@ -66,8 +70,8 @@
         </div>
         <div class="form-floating mb-3">
             <select class="form-select" id="estado" name="estado">
-                <option>Activo</option>
-                <option>Inactivo</option>
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
             </select>
             <label for="estado">Estado</label>
         </div>

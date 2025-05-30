@@ -29,11 +29,13 @@
         <div class="flex-fill text-center"><a href="../ClientesControlador?accion=tabla" class="nav-link link cliente-activo">Clientes</a></div>
         <div class="flex-fill text-center"><a href="../EmpleadosControlador?accion=tabla" class="nav-link link empleado">Empleados</a></div>
         <div class="flex-fill text-center"><a href="../CotizacionesControlador?accion=tabla" class="nav-link link cotiz">Cotizaciones</a></div>
+        <div class="flex-fill text-center"><a href="cuenta.jsp" class="nav-link link login">Cuenta</a></div>
     </div>
 </nav>
 <h2 class="display-6 text-center p-2 mt-5 header-cliente" id="fuente2">Añadir cliente</h2>
 <main class="container my-5 p-5">
-    <form action="../ClientesControlador?accion=insertar" method="post" class="container px-5 form-cliente">
+    <form action="../ClientesControlador" method="post" class="container px-5 form-cliente">
+        <input type="hidden" name="accion" value="insertar">
         <div class="form-floating mb-3">
             <input type="text" class="form-control" name="dui" id="dui" placeholder="a">
             <label for="dui">DUI</label>

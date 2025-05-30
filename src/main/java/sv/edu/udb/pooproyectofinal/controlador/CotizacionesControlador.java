@@ -13,46 +13,44 @@ import java.time.LocalDate;
 @WebServlet(name = "CotizacionesControlador", urlPatterns = "/CotizacionesControlador")
 public class CotizacionesControlador extends HttpServlet {
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
-            processRequest(request, response);
-        } catch (SQLException e) {
-            throw new ServletException("Error de base de datos", e);
+            ProcessRequest(request, response);
+        } catch (SQLException | ServletException | IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
         try {
-            processRequest(request, response);
-        } catch (SQLException e) {
-            throw new ServletException("Error de base de datos", e);
+            ProcessRequest(request, response);
+        } catch (SQLException | ServletException | IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void ProcessRequest(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
+        Connection conn = Conexion.getConnection();
         String accion = request.getParameter("accion");
         if (accion == null) accion = "tabla";
 
         switch (accion) {
-            case "form" -> mostrarFormulario(request, response);
-            case "editar" -> editarCotizacion(request, response);
-            case "crear" -> crearCotizacion(request, response);
-            case "eliminar" -> eliminarCotizacion(request, response);
-            case "pag-borrar" -> mostrarConfirmacionEliminar(request, response);
-            default -> mostrarTabla(request, response);
+            case "form" -> mostrarFormulario(request, response, conn);
+            case "editar" -> editarCotizacion(request, response, conn);
+            case "crear" -> crearCotizacion(request, response, conn);
+            case "eliminar" -> eliminarCotizacion(request, response, conn);
+            case "pag-borrar" -> mostrarConfirmacionEliminar(request, response, conn);
+            default -> mostrarTabla(request, response, conn);
         }
     }
 
-    private void mostrarTabla(HttpServletRequest request, HttpServletResponse response)
+    private void mostrarTabla(HttpServletRequest request, HttpServletResponse response, Connection conn)
             throws SQLException, ServletException, IOException {
         StringBuilder html = new StringBuilder();
         boolean hayDatos = false;
 
-        try (Connection conn = Conexion.getConnection();
-             Statement st = conn.createStatement();
+        try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery("SELECT * FROM vista_cotizaciones")) {
 
             while (rs.next()) {
@@ -81,14 +79,13 @@ public class CotizacionesControlador extends HttpServlet {
         request.getRequestDispatcher("vistas/cotizaciones-lista.jsp").forward(request, response);
     }
 
-    private void mostrarFormulario(HttpServletRequest request, HttpServletResponse response)
+    private void mostrarFormulario(HttpServletRequest request, HttpServletResponse response, Connection conn)
             throws SQLException, ServletException, IOException {
         String idStr = request.getParameter("id");
         Cotizaciones cotizacion = new Cotizaciones();
 
         if (idStr != null && !idStr.isEmpty()) {
-            try (Connection conn = Conexion.getConnection();
-                 PreparedStatement pst = conn.prepareStatement("SELECT * FROM cotizacion WHERE id = ?")) {
+            try (PreparedStatement pst = conn.prepareStatement("SELECT * FROM cotizacion WHERE id = ?")) {
 
                 pst.setInt(1, Integer.parseInt(idStr));
                 try (ResultSet rs = pst.executeQuery()) {
@@ -103,12 +100,11 @@ public class CotizacionesControlador extends HttpServlet {
         request.getRequestDispatcher("vistas/cotizaciones-form.jsp").forward(request, response);
     }
 
-    private void editarCotizacion(HttpServletRequest request, HttpServletResponse response)
+    private void editarCotizacion(HttpServletRequest request, HttpServletResponse response, Connection conn)
             throws SQLException, ServletException, IOException {
         Cotizaciones cotizacion = parseCotizacionFromRequest(request);
 
-        try (Connection conn = Conexion.getConnection();
-             PreparedStatement pst = conn.prepareStatement(
+        try (PreparedStatement pst = conn.prepareStatement(
                      "UPDATE cotizacion SET id_cliente=?, num_horas=?, fecha_inicio=?, fecha_fin=?, estado=?, " +
                              "costo_asignaciones=?, costos_adicionales=?, costo_total=? WHERE id=?")) {
 
@@ -120,12 +116,11 @@ public class CotizacionesControlador extends HttpServlet {
         response.sendRedirect("CotizacionesControlador?accion=tabla");
     }
 
-    private void crearCotizacion(HttpServletRequest request, HttpServletResponse response)
+    private void crearCotizacion(HttpServletRequest request, HttpServletResponse response, Connection conn)
             throws SQLException, ServletException, IOException {
         Cotizaciones cotizacion = parseCotizacionFromRequest(request);
 
-        try (Connection conn = Conexion.getConnection();
-             PreparedStatement pst = conn.prepareStatement(
+        try (PreparedStatement pst = conn.prepareStatement(
                      "INSERT INTO cotizacion (id_cliente, num_horas, fecha_inicio, fecha_fin, estado, " +
                              "costo_asignaciones, costos_adicionales, costo_total) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
@@ -136,12 +131,11 @@ public class CotizacionesControlador extends HttpServlet {
         response.sendRedirect("http://localhost:8080/CotizacionesControlador?accion=tabla");
     }
 
-    private void eliminarCotizacion(HttpServletRequest request, HttpServletResponse response)
+    private void eliminarCotizacion(HttpServletRequest request, HttpServletResponse response, Connection conn)
             throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
 
-        try (Connection conn = Conexion.getConnection();
-             PreparedStatement pst = conn.prepareStatement("DELETE FROM cotizacion WHERE id=?")) {
+        try (PreparedStatement pst = conn.prepareStatement("DELETE FROM cotizacion WHERE id=?")) {
 
             pst.setInt(1, id);
             pst.executeUpdate();
@@ -150,7 +144,7 @@ public class CotizacionesControlador extends HttpServlet {
         response.sendRedirect("http://localhost:8080/CotizacionesControlador?accion=tabla");
     }
 
-    private void mostrarConfirmacionEliminar(HttpServletRequest request, HttpServletResponse response)
+    private void mostrarConfirmacionEliminar(HttpServletRequest request, HttpServletResponse response, Connection conn)
             throws ServletException, IOException {
         request.setAttribute("id", request.getParameter("id"));
         request.getRequestDispatcher("vistas/cotizaciones-confirmar-eliminar.jsp").forward(request, response);

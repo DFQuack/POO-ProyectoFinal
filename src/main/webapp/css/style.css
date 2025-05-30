@@ -228,6 +228,11 @@ tr td:first-child {
     background: var(--steelblue);
 }
 
+main.elim {
+    background: var(--negro1);
+    color: #fff;
+}
+
 .form-cliente input, .form-cliente select {
     background: var(--mimi);
     color: var(--shimmer);

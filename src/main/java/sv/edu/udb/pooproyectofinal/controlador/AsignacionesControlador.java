@@ -81,7 +81,7 @@ public class AsignacionesControlador extends HttpServlet {
                 // Para obtener los empleados disponibles
                 rs = st.executeQuery("SELECT carnet, nombre FROM empleado WHERE estado = 1");
                 while (rs.next()) {
-                    html.append("<option value=\"").append(rs.getInt("carnet")).append("\">");
+                    html.append("<option value=\"").append(rs.getString("carnet")).append("\">");
                     html.append(rs.getString("nombre"));
                     html.append("</option>");
                     hayDatos = true;
@@ -92,7 +92,6 @@ public class AsignacionesControlador extends HttpServlet {
                 request.setAttribute("empleados", html.toString());
                 request.getRequestDispatcher("vistas/asignaciones-crear.jsp").forward(request, response);
                 break;
-
         }
     }
 }

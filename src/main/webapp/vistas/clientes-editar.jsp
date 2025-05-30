@@ -20,14 +20,20 @@
         </a>
     </h1>
     <div class="d-flex">
-        <div class="flex-fill text-center"><a href="../ClientesControlador?accion=tabla" class="nav-link link cliente">Clientes</a></div>
+        <div class="flex-fill text-center"><a href="../ClientesControlador?accion=tabla" class="nav-link link cliente-activo">Clientes</a></div>
         <div class="flex-fill text-center"><a href="../EmpleadosControlador?accion=tabla" class="nav-link link empleado">Empleados</a></div>
         <div class="flex-fill text-center"><a href="../CotizacionesControlador?accion=tabla" class="nav-link link cotiz">Cotizaciones</a></div>
+        <div class="flex-fill text-center"><a href="cuenta.jsp" class="nav-link link login">Cuenta</a></div>
     </div>
 </nav>
 <h2 class="display-6 text-center p-2 mt-5 header-cliente" id="fuente2">Añadir cliente</h2>
 <main class="container my-5 p-5">
-    <form method="post" class="container px-5 form-cliente">
+    <form action="../ClientesControlador" method="post" class="container px-5 form-cliente">
+        <input type="hidden" name="accion" value="actualizar">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="id_cli" id="id_cli" placeholder="a" value="<%= cli.getId() %>" readonly>
+            <label for="id_cli">ID</label>
+        </div>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" name="dui" id="dui" placeholder="a" value="<%= cli.getDui() %>">
             <label for="dui">DUI</label>
@@ -37,11 +43,11 @@
             <label for="nombre">Nombre completo</label>
         </div>
         <div class="form-floating mb-3">
-            <select class="form-select" id="tipo" name="tipo">
+            <select class="form-select" id="tipo_persona" name="tipo_persona">
                 <option value="1">Natural</option>
                 <option value="2">Jurídica</option>
             </select>
-            <label for="tipo">Tipo de persona</label>
+            <label for="tipo_persona">Tipo de persona</label>
         </div>
         <div class="form-floating mb-3">
             <input type="tel" class="form-control" name="tel" id="tel" placeholder="a" value="<%= cli.getTelefono() %>">
@@ -57,8 +63,8 @@
         </div>
         <div class="form-floating mb-3">
             <select class="form-select" id="estado" name="estado">
-                <option value="0">Inactivo</option>
                 <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
             </select>
             <label for="estado">Estado</label>
         </div>

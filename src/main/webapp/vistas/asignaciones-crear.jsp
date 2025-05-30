@@ -29,7 +29,8 @@
     <form method="post" class="container px-5 form-cotiz">
         <div class="form-floating mb-3">
             <select class="form-select" id="cliente" name="cliente">
-                <%= empleados %>
+                <option>Cotización 1</option>
+                <option>Cotización 2</option>
             </select>
             <label for="cliente">Seleccionar cotización</label>
         </div>
@@ -39,8 +40,7 @@
         </div>
         <div class="form-floating mb-3">
             <select class="form-select" id="empleado" name="empleado">
-                <option>Empleado 1</option>
-                <option>Empleado 2</option>
+                <%= empleados %>
             </select>
             <label for="empleado">Asignar empleado</label>
         </div>
