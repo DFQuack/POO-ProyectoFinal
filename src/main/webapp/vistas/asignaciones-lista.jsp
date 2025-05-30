@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% String datos = request.getAttribute("resultado").toString(); %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,60 +21,40 @@
     <div class="d-flex">
         <div class="flex-fill text-center"><a href="../ClientesControlador?accion=tabla" class="nav-link link cliente">Clientes</a></div>
         <div class="flex-fill text-center"><a href="../EmpleadosControlador?accion=tabla" class="nav-link link empleado">Empleados</a></div>
-        <div class="flex-fill text-center"><a href="../CotizacionesControlador?accion=tabla" class="nav-link link cotiz">Cotizaciones</a></div>
-        <div class="flex-fill text-center"><a href="cuenta.jsp" class="nav-link link login">Cuenta</a></div>
+        <div class="flex-fill text-center"><a href="../CotizacionesControlador?accion=tabla" class="nav-link link cotiz-activo">Cotizaciones</a></div>
     </div>
 </nav>
 <main class="container my-5 p-5 text-center">
     <div class="subheader-cotiz d-flex text-center">
-        <a href="cotizaciones-lista.jsp" class="btn-subcotiz flex-fill p-2">Cotizaciones</a>
-        <a href="asignaciones-lista.jsp" class="btn-subcotiz-activo flex-fill p-2">Asignaciones</a>
+        <a href="../CotizacionesControlador?accion=tabla" class="btn-subcotiz flex-fill p-2">Cotizaciones</a>
+        <a href="../AsignacionesControlador?accion=tabla" class="btn-subcotiz-activo flex-fill p-2">Asignaciones</a>
         <a href="subtareas-lista.jsp" class="btn-subcotiz flex-fill p-2">Subtareas</a>
     </div>
     <div class="header header-cotiz p-2 d-flex justify-content-between">
         <h2 class="mb-0">Lista de asignaciones</h2>
-        <a href="asignaciones-crear.jsp" class="btn btn-cotiz d-flex align-items-center"><span class="material-symbols-outlined">add</span>Añadir asignación</a>
+        <a href="../AsignacionesControlador?accion=crear" class="btn btn-cotiz d-flex align-items-center"><span class="material-symbols-outlined">add</span>Añadir asignación</a>
     </div>
     <div class="table-responsive">
         <table class="table text-center alinear">
             <thead class="text-light tabla-cotiz">
             <tr>
-                <th>ID Asignación</th>
+                <th>ID</th>
                 <th>ID Cotización</th>
                 <th>Título</th>
                 <th>Empleado asignado</th>
                 <th>Área asignada</th>
                 <th>Tiempo de inicio</th>
                 <th>Tiempo de fin</th>
-                <th>Costo por hora</th>
+                <th>Costo por hora ($)</th>
                 <th>Núm. horas (aprox.)</th>
                 <th>Costo base ($)</th>
                 <th>Incremento extra (%)</th>
-                <th>Total</th>
+                <th>Total ($)</th>
                 <th>Opciones</th>
             </tr>
             </thead>
             <tbody class="text-dark">
-            <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>Actividad 1</td>
-                <td>Nombre completo</td>
-                <td>Redes de comunicación</td>
-                <td>01-01-2025 8:00 a.m.</td>
-                <td>05-01-2025 5:00 p.m.</td>
-                <td>$10.00</td>
-                <td>40</td>
-                <td>$400.00</td>
-                <td>10%</td>
-                <td>$440.00</td>
-                <td>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-cotiz">Editar</button>
-                        <button type="button" class="btn btn-cotiz">Eliminar</button>
-                    </div>
-                </td>
-            </tr>
+            <%= datos %>>
             </tbody>
         </table>
     </div>

@@ -302,6 +302,11 @@ BEGIN
 END $$
 
 -- Para asignaciones
+CREATE OR REPLACE VIEW vista_asignaciones AS
+SELECT a.id, a.id_cotizacion, a.titulo, e.nombre, a.area, a.tiempo_inicio, a.tiempo_fin, a.costo_hora, a.num_horas, a.costo_base, a.incremento_extra, a.costo_total
+FROM asignacion a
+JOIN empleado e ON a.carnet_empleado = e.carnet;
+
 CREATE PROCEDURE sp_create_asignacion (
     IN p_id_cotizacion mediumint,
     IN p_titulo varchar(50),

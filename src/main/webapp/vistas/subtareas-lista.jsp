@@ -21,13 +21,12 @@
         <div class="flex-fill text-center"><a href="../ClientesControlador?accion=tabla" class="nav-link link cliente">Clientes</a></div>
         <div class="flex-fill text-center"><a href="../EmpleadosControlador?accion=tabla" class="nav-link link empleado">Empleados</a></div>
         <div class="flex-fill text-center"><a href="../CotizacionesControlador?accion=tabla" class="nav-link link cotiz">Cotizaciones</a></div>
-        <div class="flex-fill text-center"><a href="cuenta.jsp" class="nav-link link login">Cuenta</a></div>
     </div>
 </nav>
 <main class="container my-5 p-5 text-center">
     <div class="subheader-cotiz d-flex text-center">
-        <a href="cotizaciones-lista.jsp" class="btn-subcotiz flex-fill p-2">Cotizaciones</a>
-        <a href="asignaciones-lista.jsp" class="btn-subcotiz flex-fill p-2">Asignaciones</a>
+        <a href="../CotizacionesControlador?accion=tabla" class="btn-subcotiz flex-fill p-2">Cotizaciones</a>
+        <a href="../AsignacionesControlador?accion=tabla" class="btn-subcotiz flex-fill p-2">Asignaciones</a>
         <a href="subtareas-lista.jsp" class="btn-subcotiz-activo flex-fill p-2">Subtareas</a>
     </div>
     <div class="header header-cotiz p-2 d-flex justify-content-between">

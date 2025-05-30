@@ -83,7 +83,7 @@
 
         <div class="text-center mt-3">
             <button type="submit" class="btn btn-cotiz"><%= esEdicion ? "Actualizar" : "Añadir" %></button>
-            <a href="CotizacionesControlador?accion=tabla" class="btn btn-cotiz">Cancelar</a>
+            <a href="../CotizacionesControlador?accion=tabla" class="btn btn-cotiz">Cancelar</a>
         </div>
     </form>
 </main>

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<% String empleados = request.getAttribute("empleados").toString(); %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,7 +22,6 @@
         <div class="flex-fill text-center"><a href="../ClientesControlador?accion=tabla" class="nav-link link cliente">Clientes</a></div>
         <div class="flex-fill text-center"><a href="../EmpleadosControlador?accion=tabla" class="nav-link link empleado">Empleados</a></div>
         <div class="flex-fill text-center"><a href="../CotizacionesControlador?accion=tabla" class="nav-link link cotiz">Cotizaciones</a></div>
-        <div class="flex-fill text-center"><a href="cuenta.jsp" class="nav-link link login">Cuenta</a></div>
     </div>
 </nav>
 <h2 class="display-6 text-center p-2 mt-5 header-cotiz" id="fuente2">Añadir asignación</h2>
@@ -29,8 +29,7 @@
     <form method="post" class="container px-5 form-cotiz">
         <div class="form-floating mb-3">
             <select class="form-select" id="cliente" name="cliente">
-                <option>Cotización 1</option>
-                <option>Cotización 2</option>
+                <%= empleados %>
             </select>
             <label for="cliente">Seleccionar cotización</label>
         </div>

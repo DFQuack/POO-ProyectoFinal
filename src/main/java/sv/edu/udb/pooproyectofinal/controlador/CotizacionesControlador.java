@@ -13,8 +13,7 @@ import java.time.LocalDate;
 @WebServlet(name = "CotizacionesControlador", urlPatterns = "/CotizacionesControlador")
 public class CotizacionesControlador extends HttpServlet {
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             processRequest(request, response);
@@ -23,8 +22,7 @@ public class CotizacionesControlador extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             processRequest(request, response);
@@ -39,7 +37,6 @@ public class CotizacionesControlador extends HttpServlet {
         if (accion == null) accion = "tabla";
 
         switch (accion) {
-            case "tabla" -> mostrarTabla(request, response);
             case "form" -> mostrarFormulario(request, response);
             case "editar" -> editarCotizacion(request, response);
             case "crear" -> crearCotizacion(request, response);
@@ -56,14 +53,14 @@ public class CotizacionesControlador extends HttpServlet {
 
         try (Connection conn = Conexion.getConnection();
              Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery("SELECT * FROM cotizacion")) {
+             ResultSet rs = st.executeQuery("SELECT * FROM vista_cotizaciones")) {
 
             while (rs.next()) {
                 Cotizaciones cot = mapCotizacion(rs);
 
                 html.append("<tr>")
                         .append("<td>").append(cot.getId()).append("</td>")
-                        .append("<td>").append(cot.getIdCliente()).append("</td>")
+                        .append("<td>").append(rs.getString("nombre")).append("</td>")
                         .append("<td>").append(cot.getNumHoras()).append("</td>")
                         .append("<td>").append(cot.getFechaInicio()).append("</td>")
                         .append("<td>").append(cot.getFechaFin()).append("</td>")
@@ -116,7 +113,7 @@ public class CotizacionesControlador extends HttpServlet {
                              "costo_asignaciones=?, costos_adicionales=?, costo_total=? WHERE id=?")) {
 
             setCotizacionParameters(pst, cotizacion);
-            pst.setInt(9, cotizacion.getId());
+
             pst.executeUpdate();
         }
 
@@ -136,7 +133,7 @@ public class CotizacionesControlador extends HttpServlet {
             pst.executeUpdate();
         }
 
-        response.sendRedirect("CotizacionesControlador?accion=tabla");
+        response.sendRedirect("http://localhost:8080/CotizacionesControlador?accion=tabla");
     }
 
     private void eliminarCotizacion(HttpServletRequest request, HttpServletResponse response)
@@ -150,7 +147,7 @@ public class CotizacionesControlador extends HttpServlet {
             pst.executeUpdate();
         }
 
-        response.sendRedirect("CotizacionesControlador?accion=tabla");
+        response.sendRedirect("http://localhost:8080/CotizacionesControlador?accion=tabla");
     }
 
     private void mostrarConfirmacionEliminar(HttpServletRequest request, HttpServletResponse response)
@@ -163,7 +160,6 @@ public class CotizacionesControlador extends HttpServlet {
     private Cotizaciones mapCotizacion(ResultSet rs) throws SQLException {
         Cotizaciones cot = new Cotizaciones();
         cot.setId(rs.getInt("id"));
-        cot.setIdCliente(rs.getInt("id_cliente"));
         cot.setNumHoras(rs.getInt("num_horas"));
 
         Date fechaInicio = rs.getDate("fecha_inicio");
