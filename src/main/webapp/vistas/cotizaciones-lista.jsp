@@ -33,7 +33,7 @@
     </div>
     <div class="header header-cotiz p-2 d-flex justify-content-between">
         <h2 class="mb-0">Lista de cotizaciones</h2>
-        <a href="cotizaciones-crear.jsp" class="btn btn-cotiz d-flex align-items-center"><span class="material-symbols-outlined">add</span>Añadir cotización</a>
+        <a href="cotizaciones-form.jsp" class="btn btn-cotiz d-flex align-items-center"><span class="material-symbols-outlined">add</span>Añadir cotización</a>
     </div>
     <div class="table-responsive">
         <table class="table text-center alinear">
