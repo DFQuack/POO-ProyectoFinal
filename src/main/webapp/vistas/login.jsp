@@ -5,6 +5,14 @@
   Time: 20:43
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page isErrorPage="true" %>
+<%-- Modifica la sección de errores --%>
+<c:if test="${not empty requestScope.error}">
+  <div class="alert alert-danger alert-dismissible fade show">
+      ${requestScope.error}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+</c:if>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>

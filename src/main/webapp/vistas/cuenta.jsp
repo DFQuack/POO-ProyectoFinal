@@ -25,7 +25,7 @@
 </nav>
 <main class="container bg-negro2 my-5 p-5 text-center">
     <h2>Cuenta</h2>
-    <a href="#" class="link menu btn-login text-dark">Cerrar sesión</a>
+    <a href="${pageContext.request.contextPath}/logout" class="link menu btn-login text-dark">Cerrar sesión</a>
     <a href="registro.jsp" class="link menu btn-login text-dark">Crear cuenta</a>
 </main>
 

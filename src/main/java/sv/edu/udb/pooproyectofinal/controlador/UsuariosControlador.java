@@ -93,7 +93,13 @@ public class UsuariosControlador extends HttpServlet {
 
     private void handleError(HttpServletRequest request, HttpServletResponse response, String errorMessage)
             throws ServletException, IOException {
-        request.setAttribute("error", errorMessage);
-        request.getRequestDispatcher("/login").forward(request, response);
+        request.getSession().setAttribute("error", errorMessage);
+        response.sendRedirect(request.getContextPath() + "/login");
+    }
+
+    // Agrega este método para verificar sesión
+    public static boolean verificarSesion(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        return session != null && session.getAttribute("usuario") != null;
     }
 }
