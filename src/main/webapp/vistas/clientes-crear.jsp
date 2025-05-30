@@ -34,7 +34,8 @@
 </nav>
 <h2 class="display-6 text-center p-2 mt-5 header-cliente" id="fuente2">Añadir cliente</h2>
 <main class="container my-5 p-5">
-    <form action="../ClientesControlador?accion=insertar" method="post" class="container px-5 form-cliente">
+    <form action="../ClientesControlador" method="post" class="container px-5 form-cliente">
+        <input type="hidden" name="accion" value="insertar">
         <div class="form-floating mb-3">
             <input type="text" class="form-control" name="dui" id="dui" placeholder="a">
             <label for="dui">DUI</label>

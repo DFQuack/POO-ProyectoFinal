@@ -116,6 +116,52 @@ public class ClientesControlador extends HttpServlet {
                 pst.executeUpdate();
                 response.sendRedirect("http://localhost:8080/ClientesControlador?accion=tabla");
                 break;
+            case "actualizar":
+                // Devuelve notificaciones de error
+                msg.append(validarDatos(request));
+                request.setAttribute("msg", msg.toString());
+                // Si hay un mensaje de error
+                if (msg.toString().length() > 25) {
+                    request.getRequestDispatcher("vistas/clientes-editar.jsp").forward(request, response);
+                    break;
+                }
+                cli.setId(Integer.parseInt(request.getParameter("id_cli")));
+                cli.setDui(request.getParameter("dui"));
+                cli.setNombre(request.getParameter("nombre"));
+                if (request.getParameter("tipo_persona").equals("1")) {
+                    cli.setTipoPersona("Natural");
+                } else {
+                    cli.setTipoPersona("Jurídica");
+                }
+                cli.setTelefono(request.getParameter("tel"));
+                cli.setEmail(request.getParameter("correo"));
+                cli.setDireccion(request.getParameter("direccion"));
+                cli.setEstado(Boolean.parseBoolean(request.getParameter("estado")));
+
+                pst = conn.prepareStatement("CALL sp_update_cliente(?,?,?,?,?,?,?,?)");
+                pst.setInt(1, cli.getId());
+                pst.setString(2, cli.getDui());
+                pst.setString(3, cli.getNombre());
+                pst.setString(4, cli.getTipoPersona());
+                pst.setString(5, cli.getTelefono());
+                pst.setString(6, cli.getEmail());
+                pst.setString(7, cli.getDireccion());
+                pst.setBoolean(8, cli.isEstado());
+                pst.executeUpdate();
+                response.sendRedirect("http://localhost:8080/ClientesControlador?accion=tabla");
+                break;
+            case "pag-borrar": // Lleva a la página de confirmación de borrado
+                request.setAttribute("id", request.getParameter("id"));
+                request.getRequestDispatcher("vistas/clientes-eliminar.jsp").forward(request, response);
+                break;
+            case "eliminar":
+                cli.setId(Integer.parseInt(request.getParameter("id_cli")));
+                pst = conn.prepareStatement("CALL sp_delete_cliente(?)");
+                pst.setInt(1, cli.getId());
+                pst.executeUpdate();
+                response.sendRedirect("http://localhost:8080/ClientesControlador?accion=tabla");
+            default:
+                response.sendRedirect("http://localhost:8080/ClientesControlador?accion=tabla");
         }
 
     }

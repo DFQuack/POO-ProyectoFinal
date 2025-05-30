@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<% String carnetEmp = request.getAttribute("carnet").toString(); %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,9 +24,16 @@
         <div class="flex-fill text-center"><a href="cuenta.jsp" class="nav-link link login">Cuenta</a></div>
     </div>
 </nav>
-<main class="container my-5 p-5">
-    <h2 class="display-6 text-center" id="fuente2">Eliminar empleado</h2>
-    ¿Desea eliminar el empleado con id ?
+<main class="container text-center my-5 p-5 elim">
+    <h2 class="display-6" id="fuente2">Eliminar empleado</h2>
+    ¿Desea eliminar el cliente con carnet <%= carnetEmp %>?
+    <form action="../EmpleadosControlador" method="post" class="container px-5">
+        <input type="hidden" name="accion" value="eliminar">
+        <input type="hidden" name="carnet" value="<%= carnetEmp %>">
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-empleado">Eliminar</button>
+        </div>
+    </form>
 </main>
 </body>
 </html>

@@ -26,7 +26,8 @@
 </nav>
 <h2 class="display-6 text-center p-2 mt-5 header-empleado" id="fuente2">Añadir empleado</h2>
 <main class="container my-5 p-5">
-    <form method="post" class="container px-5 form-empleado">
+    <form action="../EmpleadosControlador" method="post" class="container px-5 form-empleado">
+        <input type="hidden" name="accion" value="insertar">
         <div class="form-floating mb-3">
             <input type="text" class="form-control" name="carnet" id="carnet" placeholder="a">
             <label for="carnet">Carnet</label>
@@ -40,11 +41,11 @@
             <label for="nombre">Nombre completo</label>
         </div>
         <div class="form-floating mb-3">
-            <select class="form-select" id="tipo" name="tipo">
-                <option>Natural</option>
-                <option>Jurídica</option>
+            <select class="form-select" id="tipo_persona" name="tipo_persona">
+                <option value="1">Natural</option>
+                <option value="2">Jurídica</option>
             </select>
-            <label for="tipo">Tipo de persona</label>
+            <label for="tipo_persona">Tipo de persona</label>
         </div>
         <div class="form-floating mb-3">
             <input type="tel" class="form-control" name="tel" id="tel" placeholder="a">
@@ -64,13 +65,6 @@
                 <option>Por horas</option>
             </select>
             <label for="contrato">Tipo de contratación</label>
-        </div>
-        <div class="form-floating mb-3">
-            <select class="form-select" id="estado" name="estado">
-                <option>Activo</option>
-                <option>Inactivo</option>
-            </select>
-            <label for="estado">Estado</label>
         </div>
         <div class="text-center mt-3">
             <button type="submit" class="btn btn-empleado">Añadir</button>

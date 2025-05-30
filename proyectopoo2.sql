@@ -245,7 +245,7 @@ BEGIN
     WHERE carnet = p_carnet;
 END $$
 
-CREATE PROCEDURE sp_delete_empleado (IN p_carnet INT)
+CREATE PROCEDURE sp_delete_empleado (IN p_carnet char(8))
 BEGIN
     DELETE FROM empleado WHERE carnet = p_carnet;
 END $$
